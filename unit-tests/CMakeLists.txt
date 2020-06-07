@@ -7,6 +7,8 @@ include_directories(../includes)
 
 set(SOURCES "")
 
-set(HEADERS "")
+set(HEADERS
+		../includes/TreeNode.h
+		../includes/BinarySearchTree.h)
 
 add_executable(OOP_EXAM main.cpp ${SOURCES} ${HEADERS})

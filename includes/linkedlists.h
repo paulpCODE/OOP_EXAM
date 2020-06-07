@@ -29,23 +29,6 @@ public:
     Node(KeyT newKey, ValueT newValue, Node *newNext):data{newKey,newValue},next(newNext),prev(nullptr){}
     Node(KeyT newKey, ValueT newValue, Node *newNext, Node *newPrev):data{newKey,newValue},next(newNext),prev(newPrev){}
 };
-
-template <class KeyT,class ValueT>
-class Iterator
-{
-public:
-    explicit Iterator(Node<KeyT,ValueT>* node);
-    Node<KeyT,ValueT>* node() const;
-    KeyT& Key() const;
-    bool Valid() const;
-    Iterator& operator++();
-    Iterator& operator--();
-    bool operator==(const Iterator&) const;
-    bool operator!=(const Iterator&) const;
-
-private:
-    Node<KeyT,ValueT>* m_pNode;
-};
 template <class KeyT,class ValueT>
 class AbstractList{
 public:
@@ -58,17 +41,10 @@ public:
    // virtual int getKeyVector() = 0;
    // virtual pair<T,V> getKeyValuesVectorOfPairs() = 0;
     virtual void deleteList()=0;
-    virtual void getHead()=0;
-    virtual void getTail()=0;
-
-
     virtual bool empty()= 0;
     virtual size_t size()= 0;
     virtual void clear()= 0;
     virtual void push_back(const Node<KeyT,ValueT> &value)= 0;
-    virtual void push_front(const Node<KeyT,ValueT> &value)= 0;
-    virtual void pop_back()= 0;
-    virtual void pop_front()= 0;
 
     virtual void print_list()= 0;
 
@@ -102,8 +78,8 @@ public:
      void print_list() override;
 
 private:
-     void InsertNodeBeforePosition(const ValueT& value, const Iterator<KeyT,ValueT>& position);
-     void RemoveNodeAtPosition(const Iterator<KeyT,ValueT>& position);
+//     void InsertNodeBeforePosition(const ValueT& value, const Iterator<KeyT,ValueT>& position);
+//     void RemoveNodeAtPosition(const Iterator<KeyT,ValueT>& position);
 };
 
 template<typename T>

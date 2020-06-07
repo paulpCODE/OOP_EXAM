@@ -55,8 +55,7 @@ public:
     }
 
     // Copy constructor
-    Node(const Node& source):
-        m_data{ nullptr }
+    Node(const Node& source)
     {
         deepCopy(source);
     }
@@ -86,7 +85,8 @@ public:
 
     virtual int GetSize() = 0;
 
-    virtual ValueT & operator[](const int index) = 0;
+    // RETURNS POINTER
+    virtual ValueT* & operator[](const int index) = 0;
 
     virtual void push_front(KeyT key,ValueT* value) = 0;
 
@@ -219,7 +219,7 @@ ValueT & Linked_List<KeyT,ValueT>::operator[](const int index)
     {
         if (counter == index)
         {
-            return current->data;
+            return current->value;
         }
         current = current->pNext;
         counter++;

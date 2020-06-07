@@ -98,8 +98,6 @@ public:
 
     virtual void pop_back() = 0;
 
-    virtual void insertionSort() = 0;
-
 };
 
 
@@ -139,8 +137,6 @@ public:
     // Óäàëåíèå ïîñëåäíåãî ýëåìåíòà â ñïèñêå
     void pop_back() override;
 
-    // Ñîðòèðîâêà 1)
-    void insertionSort() override ;
 
 private:
     int Size;

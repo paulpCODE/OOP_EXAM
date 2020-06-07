@@ -5,8 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(../includes)
 
-set(SOURCES "")
+set(SOURCES "../src/linkedlists.cpp")
 
-set(HEADERS "")
+set(HEADERS "../includes/linkedlists.h")
 
 add_executable(OOP_EXAM main.cpp ${SOURCES} ${HEADERS})

@@ -15,62 +15,64 @@ public:
     Node *pNext;
     Node():key(KeyT{}),value(nullptr),pNext(nullptr){}
     Node(KeyT newKey, ValueT *newValue):key(newKey),value(newValue),pNext(nullptr){}
-    // assumes m_data is initialized
-    void deepCopy(const Node& source)
-    {
-        // first we need to deallocate any value that we are holding!
-        delete value;
-        delete pNext;
 
-        // because key is not a pointer, we can shallow copy it
-        key = source.key;
+    // DO WE NEED DEEP COPY?
+//    // assumes data is initialized
+//    void deepCopy(const Node& source)
+//    {
+//        // first we need to deallocate any value that we are holding!
+//        delete value;
+//        delete pNext;
+
+//        // because key is not a pointer, we can shallow copy it
+//        key = source.key;
 
 
-        // value and pNext are pointers, so we need to deep copy it if it is non-null
+//        // value and pNext are pointers, so we need to deep copy it if it is non-null
 
-        // value
-        if (source.value)
-        {
-            // allocate memory for our copy
-            value = new ValueT();
+//        // value
+//        if (source.value)
+//        {
+//            // allocate memory for our copy
+//            value = new ValueT();
 
-            // do the copy
-            value = source.value;
-        }
-        else
-            value = nullptr;
+//            // do the copy
+//            value = source.value;
+//        }
+//        else
+//            value = nullptr;
 
-        // pNext
-        if (source.pNext)
-        {
-            // allocate memory for our copy
-            pNext = new Node();
+//        // pNext
+//        if (source.pNext)
+//        {
+//            // allocate memory for our copy
+//            pNext = new Node();
 
-            // do the copy
-            pNext = source.pNext;
-        }
-        else
-            pNext = nullptr;
+//            // do the copy
+//            pNext = source.pNext;
+//        }
+//        else
+//            pNext = nullptr;
 
-    }
+//    }
 
-    // Copy constructor
-    Node(const Node& source)
-    {
-        deepCopy(source);
-    }
-    // Assignment operator
-   Node &operator=(const Node & source)
-    {
-        // check for self-assignment
-        if (this == &source)
-            return *this;
+//    // Copy constructor
+//    Node(const Node& source)
+//    {
+//        deepCopy(source);
+//    }
+//    // Assignment operator
+//   Node &operator=(const Node & source)
+//    {
+//        // check for self-assignment
+//        if (this == &source)
+//            return *this;
 
-        // now do the deep copy
-        deepCopy(source);
+//        // now do the deep copy
+//        deepCopy(source);
 
-        return *this;
-    }
+//        return *this;
+//    }
 };
 
 template <class KeyT,class ValueT>
@@ -85,7 +87,7 @@ public:
 
     virtual int GetSize() = 0;
 
-    // RETURNS POINTER
+    // RETURNS POINTER ? review requested Timur plz
     virtual ValueT* & operator[](const int index) = 0;
 
     virtual void push_front(KeyT key,ValueT* value) = 0;
@@ -123,7 +125,7 @@ public:
     int GetSize() override { return Size; }
 
     // Ïåðåãðóæåííûé îïåðàòîð []
-    ValueT & operator[](const int index) override;
+    ValueT* & operator[](const int index) override;
 
     // Äîáàâëåíèå ýëåìåíòà â íà÷àëî ñïèñêà
     void push_front(KeyT key,ValueT* value) override ;
@@ -227,28 +229,28 @@ ValueT & Linked_List<KeyT,ValueT>::operator[](const int index)
 }
 
 template <class KeyT,class ValueT>
-void Linked_List<KeyT,ValueT>::push_front(T data)
+void Linked_List<KeyT,ValueT>::push_front(KeyT key,ValueT* value)
 {
-    head = new Node<T>(data, head);
+    head = new Node<KeyT,ValueT>(key,value, head);
     Size++;
 }
 template <class KeyT,class ValueT>
-void Linked_List<KeyT,ValueT>::insert(T data, int index)
+void Linked_List<KeyT,ValueT>::insert(KeyT key,ValueT* value, int index)
 {
     if (index == 0)
     {
-        push_front(data);
+        push_front(key,value);
     }
     else
     {
-        Node<T> *previous = this->head;
+        Node<KeyT,ValueT> *previous = this->head;
 
         for (int i = 0; i < index - 1; i++)
         {
             previous = previous->pNext;
         }
 
-        Node<T> *newNode = new Node<T>(data, previous->pNext);
+        Node<KeyT,ValueT> *newNode = new Node<KeyT,ValueT>(key,value, previous->pNext);
 
         previous->pNext = newNode;
 
@@ -287,26 +289,5 @@ template <class KeyT,class ValueT>
 void Linked_List<KeyT,ValueT>::pop_back()
 {
     removeAt(Size - 1);
-}
-
-template <class KeyT,class ValueT>
-void Linked_List<KeyT,ValueT>::insertionSort()
-{
-    int i, j;
-    DateTime key;
-    for (i = 1; i < this->Size; i++)
-    {
-        key = this[0][i];
-        j = i - 1;
-
-        while (j >= 0 && this[0][j] > key)
-        {
-            this->removeAt(j + 1);
-            this->insert(this[0][j], j + 1);
-            j = j - 1;
-        }
-        this->removeAt(j + 1);
-        this->insert(key, j + 1);
-    }
 }
 

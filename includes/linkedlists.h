@@ -110,7 +110,7 @@ public:
     /** Default constructor */
     Linked_List() ;
 
-    Linked_List(const vector<KeyT>& keys,const vector<ValueT*>& values) ;
+    Linked_List(const vector<std::pair<KeyT, ValueT>> &nodes) ;
 
     // Óäàëåíèå ïåðâîãî ýëåìåíòà â ñïèñêå
     void pop_front() override ;
@@ -155,14 +155,10 @@ Linked_List<KeyT,ValueT>::Linked_List()
 }
 
 template <class KeyT,class ValueT>
-Linked_List<KeyT,ValueT>::Linked_List(const vector<KeyT>& keys,const vector<ValueT*>& values)
+Linked_List<KeyT,ValueT>::Linked_List(const vector<std::pair<KeyT, ValueT>> &nodes)
 {
-    if (keys.size()!=values.size()){
-        std::cout<<"different amount of keys and values";
-        exit(0); // it'll be better if implement try-catch or assert
-    }
-    for (int i = 0; i < keys.size(); i++) {
-        this->push_back(keys[i],values[i]);
+    for (int i = 0; i < nodes.size(); i++) {
+        this->push_back(nodes[i].first,nodes[i].second);
     }
 }
 
@@ -211,7 +207,7 @@ void Linked_List<KeyT,ValueT>::clear()
 
 
 template<class KeyT, class ValueT>
-ValueT & Linked_List<KeyT,ValueT>::operator[](const int index)
+ValueT* & Linked_List<KeyT,ValueT>::operator[](const int index)
 {
     int counter = 0;
 
@@ -267,14 +263,14 @@ void Linked_List<KeyT,ValueT>::removeAt(int index)
     }
     else
     {
-        Node<T> *previous = this->head;
+        Node<KeyT, ValueT> *previous = this->head;
         for (int i = 0; i < index - 1; i++)
         {
             previous = previous->pNext;
         }
 
 
-        Node<T> *toDelete = previous->pNext;
+        Node<KeyT, ValueT> *toDelete = previous->pNext;
 
         previous->pNext = toDelete->pNext;
 

@@ -10,6 +10,7 @@ set(SOURCES "")
 set(HEADERS
 		includes/TreeNode.h
 		includes/BinarySearchTree.h
-		includes/RedBlackTree.h)
+		includes/RedBlackTree.h
+		includes/SplayTree.h)
 
 add_executable(OOP_EXAM unit-tests/main.cpp ${SOURCES} ${HEADERS})

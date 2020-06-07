@@ -105,36 +105,16 @@ template<class KeyT , class ValueT >
 class Linked_List : public AbstractList<KeyT,ValueT>
 {
 public:
-    /** Default constructor */
     Linked_List() ;
-
     Linked_List(const vector<std::pair<KeyT, ValueT>> &nodes) ;
-
-    // Óäàëåíèå ïåðâîãî ýëåìåíòà â ñïèñêå
     void pop_front() override ;
-
-    // Äîáàâëåíèå ýëåìåíòà â êîíåö ñïèñêà
     void push_back(KeyT key,ValueT* value) override ;
-
-    // Î÷èñòèòü ñïèñîê
     void clear() override ;
-
-    // Ïîëó÷èòü êîëè÷åñòâî åëåìåíòîâ â ñïèñêå
     int GetSize() override { return Size; }
-
-    // Ïåðåãðóæåííûé îïåðàòîð []
     ValueT* & operator[](const int index) override;
-
-    // Äîáàâëåíèå ýëåìåíòà â íà÷àëî ñïèñêà
     void push_front(KeyT key,ValueT* value) override ;
-
-    // Äîáàâëåíèå ýëåìåíòà â ñïèñîê ïî óêàçàííîìó èíäåêñó
     void insert(KeyT key,ValueT* value, int index) override ;
-
-    // Óäàëåíèå ýëåìåíòà â ñïèñêå ïî óêàçàííîìó èíäåêñó
     void removeAt(int index) override ;
-
-    // Óäàëåíèå ïîñëåäíåãî ýëåìåíòà â ñïèñêå
     void pop_back() override;
 
 

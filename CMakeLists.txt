@@ -13,6 +13,8 @@ set(HEADERS
 		includes/RedBlackTree.h
 		includes/SplayTree.h
 		includes/AVLTreeNode.h
-		includes/AVLTree.h)
+		includes/AVLTree.h
+		includes/HashNode.h
+		includes/HashTable.h)
 
 add_executable(OOP_EXAM unit-tests/main.cpp ${SOURCES} ${HEADERS})

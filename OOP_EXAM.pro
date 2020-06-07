@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        SortAlgorithms.cpp \
         main.cpp \
         src/linkedlists.cpp
 
@@ -32,6 +33,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 
 HEADERS += \ \
+    includes/SortAlgorithms.h \
     includes/linkedlists.h
 
 

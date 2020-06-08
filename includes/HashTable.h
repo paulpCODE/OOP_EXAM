@@ -2,6 +2,7 @@
 
 #include "HashNode.h"
 #include <cstddef>
+#include <stdexcept>
 
 template <typename KeyType, typename DataType>
 class HashTable {
@@ -9,7 +10,15 @@ protected:
 	std::size_t capacity;
 
 public:
-	HashTable(std::size_t capacity) : capacity{ capacity } {}
+	/** Constructs the hash table with the capacity 'capacity'.
+	 * It assumes that capacity is greater than 0 ('capacity' > 0).
+	 * Otherwise (if 'capacity' == 0), it throws an exception.
+	 */
+	HashTable(std::size_t capacity) : capacity{ capacity } {
+		if (capacity == 0) {
+			throw std::invalid_argument("The size of the hash table cannot be zero.");
+		}
+	}
 
 	/** Inserts the key 'key' associated with the data 'data'.
 	 * It assumes that pointer to the data is NOT a null pointer.

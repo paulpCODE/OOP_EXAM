@@ -14,7 +14,7 @@ public:
     ValueT *value;
     Node *pNext;
     Node():key(KeyT{}),value(nullptr),pNext(nullptr){}
-    Node(KeyT newKey, ValueT *newValue):key(newKey),value(newValue),pNext(nullptr){}
+    Node(KeyT newKey, ValueT *newValue, Node *newPNext = nullptr):key(newKey),value(newValue),pNext(newPNext){}
 
     // DO WE NEED DEEP COPY?
 //    // assumes data is initialized

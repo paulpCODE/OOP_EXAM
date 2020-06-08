@@ -166,7 +166,7 @@ void Linked_List<KeyT,ValueT>::push_back(KeyT key,ValueT* value)
         {
             current = current->pNext;
         }
-        current->pNext = new Node<KeyT,ValueT>(key,&value);
+        current->pNext = new Node<KeyT,ValueT>(key,value);
 
     }
     Size++;

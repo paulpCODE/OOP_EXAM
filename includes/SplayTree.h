@@ -7,7 +7,7 @@
 
 // Splay tree node
 template <typename KeyType, typename DataType>
-class STNode : public TreeNode<KeyType, DataType, STNode<KeyType, DataType>> {
+class STNode : public BinaryTreeNode<KeyType, DataType, STNode<KeyType, DataType>> {
 public:
 	STNode(KeyType key, DataType* data);
 
@@ -48,7 +48,7 @@ public:
 
 template <typename KeyType, typename DataType>
 inline STNode<KeyType, DataType>::STNode(KeyType key, DataType* data) :
-	TreeNode<KeyType, DataType, STNode<KeyType, DataType>>(key, data)
+	BinaryTreeNode<KeyType, DataType, STNode<KeyType, DataType>>(key, data)
 {
 }
 

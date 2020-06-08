@@ -1,7 +1,7 @@
 #pragma once
 
 template <typename KeyType, typename DataType, typename NodeType>
-class TreeNode {
+class BinaryTreeNode {
 public:
 	KeyType key;
 	DataType* data;
@@ -10,6 +10,6 @@ public:
 	NodeType* left;
 	NodeType* right;
 
-	TreeNode(KeyType key, DataType* data) :
+	BinaryTreeNode(KeyType key, DataType* data) :
 		key{ key }, data{ data }, parent{ nullptr }, left{ nullptr }, right{ nullptr } {}
 };

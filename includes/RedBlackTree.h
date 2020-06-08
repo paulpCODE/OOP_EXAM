@@ -12,7 +12,7 @@ enum Color {
 
 // Red-black tree node
 template <typename KeyType, typename DataType>
-class RBTreeNode : public TreeNode<KeyType, DataType, RBTreeNode<KeyType, DataType>> {
+class RBTreeNode : public BinaryTreeNode<KeyType, DataType, RBTreeNode<KeyType, DataType>> {
 public:
 	Color color;
 
@@ -21,7 +21,7 @@ public:
 
 template<typename KeyType, typename DataType>
 inline RBTreeNode<KeyType, DataType>::RBTreeNode(KeyType key, DataType* data) : 
-	TreeNode<KeyType, DataType, RBTreeNode<KeyType, DataType>>(key, data),
+	BinaryTreeNode<KeyType, DataType, RBTreeNode<KeyType, DataType>>(key, data),
 	color(COLOR_RED)
 {
 }

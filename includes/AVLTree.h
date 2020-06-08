@@ -4,7 +4,7 @@
 #include "AVLTreeNode.h"
 
 template <typename KeyType, typename DataType>
-class AVLTree : public BinarySearchTree<KeyType, DataType, AVLNode<KeyType, DataType>> {
+class AVLTree : public BinarySearchTree<KeyType, DataType> {
 public:
 	AVLTree() {}
 
@@ -14,6 +14,8 @@ public:
 	AVLNode<KeyType, DataType>* search(KeyType key) { return searchNode(this->root, key); }
 	AVLNode<KeyType, DataType>* getRoot() { return this->root; }
 private:
+	AVLNode<KeyType, DataType>* root{ nullptr };
+
 	void clearTree(AVLNode<KeyType, DataType>* node);
 	int getNodeHeight(AVLNode<KeyType, DataType>* node);
 	int getBalance(AVLNode<KeyType, DataType>* node);

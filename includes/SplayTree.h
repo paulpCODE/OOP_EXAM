@@ -14,9 +14,11 @@ public:
 };
 
 template <typename KeyType, typename DataType>
-class SplayTree : public BinarySearchTree<KeyType, DataType, STNode<KeyType, DataType>>
+class SplayTree : public BinarySearchTree<KeyType, DataType>
 {
 private:
+	STNode<KeyType, DataType>* root{ nullptr };
+
 	void rotateLeft(STNode<KeyType, DataType>* x);
 	void rotateRight(STNode<KeyType, DataType>* y);
 	void splay(STNode<KeyType, DataType>* x);

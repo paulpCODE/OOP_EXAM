@@ -27,9 +27,11 @@ inline RBTreeNode<KeyType, DataType>::RBTreeNode(KeyType key, DataType* data) :
 }
 
 template <typename KeyType, typename DataType>
-class RedBlackTree : public BinarySearchTree<KeyType, DataType, RBTreeNode<KeyType, DataType>>
+class RedBlackTree : public BinarySearchTree<KeyType, DataType>
 {
 private:
+	RBTreeNode<KeyType, DataType>* root{ nullptr };
+
 	void fixup(RBTreeNode<KeyType, DataType>* z);
 	void rotateLeft(RBTreeNode<KeyType, DataType>* x);
 	void rotateRight(RBTreeNode<KeyType, DataType>* y);

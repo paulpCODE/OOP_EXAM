@@ -2,19 +2,8 @@
 #include <QQmlApplicationEngine>
 #include "includes/SortAlgorithms.h"
 
-template <class T>
-void printVec(std::vector<T> vec) {
-    for(unsigned int i = 0; i < vec.size(); i++)
-        std::cout << vec[i] << " ";
-};
-
 int main(int argc, char *argv[])
 {
-    std::vector<char> vec{'a', 'z', 'g', 'l', 'r', 'b', 'c'};
-    SortAlgorithms<char>* sa = new IterationMerge<char>();
-    sa->sort(vec);
-    printVec(vec);
-
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);

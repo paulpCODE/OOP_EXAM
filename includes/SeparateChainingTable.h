@@ -13,7 +13,6 @@ class SeparateChainingTable : public HashTable<KeyType, DataType> {
 private:
 	std::vector<std::list<HashNode<KeyType, DataType>>> buckets;
 	HashFunction hashFunction;
-
 public:
 	SeparateChainingTable(std::size_t capacity);
 
@@ -99,5 +98,5 @@ template<typename KeyType, typename DataType>
 inline void SeparateChainingTable<KeyType, DataType>::clear()
 {
 	buckets.clear();
-	buckets.resize(capacity);
+	buckets.resize(this->capacity);
 }

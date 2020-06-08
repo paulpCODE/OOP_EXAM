@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(includes)
 
-set(SOURCES "")
+set(SOURCES
+		src/HashFunction.cpp)
 
 set(HEADERS
 		includes/TreeNode.h
@@ -15,6 +16,8 @@ set(HEADERS
 		includes/AVLTreeNode.h
 		includes/AVLTree.h
 		includes/HashNode.h
-		includes/HashTable.h)
+		includes/HashTable.h
+		includes/HashFunction.h
+		includes/SeparateChainingTable.h)
 
 add_executable(OOP_EXAM unit-tests/main.cpp ${SOURCES} ${HEADERS})

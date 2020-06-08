@@ -1,8 +1,9 @@
 ﻿#pragma once
 
+#include "HashTable.h"
 #include <iostream>
 #include <string>
-#include "HashTable.h"
+#include <stdexcept>
 
 using namespace std;
 
@@ -96,6 +97,10 @@ LinearProbingTable<KeyType, DataType>::LinearProbingTable(const LinearProbingTab
 // добавление значения по ключу
 template <typename KeyType, typename DataType>
 void LinearProbingTable<KeyType, DataType>::insert(KeyType key, DataType* data) {
+	if (!data) {
+		throw std::invalid_argument("The data pointer can not be null pointer.");
+	}
+
 	int sequenceLength = 0; // начальная длина пробной последовательности равна нулю
 	int hash = h(key); // получаем хеш от ключа
 	if (data == nullptr) throw std::string("Unable to insert nullptr data");
@@ -170,6 +175,10 @@ bool LinearProbingTable<KeyType, DataType>::find(const KeyType& key) {
 template<typename KeyType, typename DataType>
 inline bool LinearProbingTable<KeyType, DataType>::set(KeyType key, DataType* data)
 {
+	if (!data) {
+		throw std::invalid_argument("The data pointer can not be null pointer.");
+	}
+
 	int sequenceLength = 0; // начальная длина пробной последовательности равна нулю
 	int hash = h(key); // получаем хеш от ключа
 

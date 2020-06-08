@@ -36,13 +36,13 @@ public:
 	LinearProbingTable(int tableSize, int (*h)(KeyType), int q = 1); // конструктор из размера, хеш-функции и шага пробирования
 	LinearProbingTable(const LinearProbingTable<KeyType, DataType>& table); // конструктор копирования
 
-	void insert(KeyType key, DataType* data); // добавление значения по ключу
-	bool remove(KeyType key); // удаление по ключу
+	void insert(KeyType key, DataType* data) override; // добавление значения по ключу
+	bool remove(KeyType key) override; // удаление по ключу
 	bool find(const KeyType& key); // поиск по ключу
-	bool set(KeyType key, DataType* data);
+	bool set(KeyType key, DataType* data) override;
 
-	void clear(); // очистка таблицы
-	DataType* search(KeyType key); // получение значения по ключу
+	void clear() override; // очистка таблицы
+	DataType* search(KeyType key) override; // получение значения по ключу
 
 	void Print() const; // вывод таблицы
 

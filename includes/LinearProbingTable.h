@@ -1,15 +1,19 @@
 ﻿#pragma once
 
-#include "HashTable.h"
 #include <iostream>
 #include <string>
-#include <stdexcept>
+#include "HashTable.h"
 
 using namespace std;
 
 const int FREE = 0; // свободная ячейка
 const int BUSY = 1; // занятая ячейка
 const int REMOVED = 2; // удалённая ячейка
+
+template <typename T>
+int GetHash(T key) {
+	return key % 100;
+}
 
 template <typename KeyType, typename DataType>
 class LinearProbingHashNode : public HashNode<KeyType, DataType> {
@@ -33,16 +37,16 @@ class LinearProbingTable : public HashTable<KeyType, DataType> {
 	int (*h)(KeyType); // указатель на хеш-функцию
 
 public:
-	LinearProbingTable(int tableSize, int (*h)(KeyType), int q = 1); // конструктор из размера, хеш-функции и шага пробирования
+	LinearProbingTable(int tableSize, int (*h)(KeyType) = GetHash, int q = 1); // конструктор из размера, хеш-функции и шага пробирования
 	LinearProbingTable(const LinearProbingTable<KeyType, DataType>& table); // конструктор копирования
 
-	void insert(KeyType key, DataType* data) override; // добавление значения по ключу
-	bool remove(KeyType key) override; // удаление по ключу
+	void insert(KeyType key, DataType* data); // добавление значения по ключу
+	bool remove(KeyType key); // удаление по ключу
 	bool find(const KeyType& key); // поиск по ключу
-	bool set(KeyType key, DataType* data) override;
+	bool set(KeyType key, DataType* data);
 
-	void clear() override; // очистка таблицы
-	DataType* search(KeyType key) override; // получение значения по ключу
+	void clear(); // очистка таблицы
+	DataType* search(KeyType key); // получение значения по ключу
 
 	void Print() const; // вывод таблицы
 
@@ -61,7 +65,7 @@ template <typename KeyType, typename DataType>
 bool LinearProbingTable<KeyType, DataType>::IsEmpty() const {
 	return this->size == 0; // таблица пуста, если нет элементов
 }
-	
+
 // конструктор из размера, хеш-функции и шага пробирования
 template <typename KeyType, typename DataType>
 LinearProbingTable<KeyType, DataType>::LinearProbingTable(int tableSize, int (*h)(KeyType), int q) : HashTable<KeyType, DataType>(tableSize){
@@ -97,11 +101,7 @@ LinearProbingTable<KeyType, DataType>::LinearProbingTable(const LinearProbingTab
 // добавление значения по ключу
 template <typename KeyType, typename DataType>
 void LinearProbingTable<KeyType, DataType>::insert(KeyType key, DataType* data) {
-	if (!data) {
-		throw std::invalid_argument("The data pointer can not be null pointer.");
-	}
-
-	int sequenceLength = 0; // начальная длина пробной последовательности равна нулю
+	std::size_t sequenceLength = 0; // начальная длина пробной последовательности равна нулю
 	int hash = h(key); // получаем хеш от ключа
 	if (data == nullptr) throw std::string("Unable to insert nullptr data");
 
@@ -127,7 +127,7 @@ void LinearProbingTable<KeyType, DataType>::insert(KeyType key, DataType* data) 
 // удаление по ключу
 template <typename KeyType, typename DataType>
 bool LinearProbingTable<KeyType, DataType>::remove(KeyType key) {
-	int sequenceLength = 0; // начальная длина пробной последовательности равна нулю
+	std::size_t sequenceLength = 0; // начальная длина пробной последовательности равна нулю
 	int hash = h(key); // получаем хеш от ключа
 
 	while (sequenceLength < this->capacity) {
@@ -152,7 +152,7 @@ bool LinearProbingTable<KeyType, DataType>::remove(KeyType key) {
 // поиск по ключу
 template <typename KeyType, typename DataType>
 bool LinearProbingTable<KeyType, DataType>::find(const KeyType& key) {
-	int sequenceLength = 0; // начальная длина пробной последовательности равна нулю
+	std::size_t sequenceLength = 0; // начальная длина пробной последовательности равна нулю
 	int hash = h(key); // получаем хеш от ключа
 
 	while (sequenceLength < this->capacity) {
@@ -175,11 +175,7 @@ bool LinearProbingTable<KeyType, DataType>::find(const KeyType& key) {
 template<typename KeyType, typename DataType>
 inline bool LinearProbingTable<KeyType, DataType>::set(KeyType key, DataType* data)
 {
-	if (!data) {
-		throw std::invalid_argument("The data pointer can not be null pointer.");
-	}
-
-	int sequenceLength = 0; // начальная длина пробной последовательности равна нулю
+	std::size_t sequenceLength = 0; // начальная длина пробной последовательности равна нулю
 	int hash = h(key); // получаем хеш от ключа
 
 	while (sequenceLength < this->capacity) {
@@ -202,7 +198,7 @@ inline bool LinearProbingTable<KeyType, DataType>::set(KeyType key, DataType* da
 
 template <typename KeyType, typename DataType>
 void LinearProbingTable<KeyType, DataType>::clear() {
-	for (int i = 0; i < this->capacity; i++)
+	for (std::size_t i = 0; i < this->capacity; i++)
 		cells[i].state = FREE;
 
 	this->size = 0; // обнуляем счётчик числа элементов
@@ -211,7 +207,7 @@ void LinearProbingTable<KeyType, DataType>::clear() {
 // получение значения по ключу
 template <typename KeyType, typename DataType>
 DataType* LinearProbingTable<KeyType, DataType>::search(KeyType key) {
-	int sequenceLength = 0;
+	std::size_t sequenceLength = 0;
 	int hash = h(key); // получаем хеш от ключа
 
 	while (sequenceLength < this->capacity) {

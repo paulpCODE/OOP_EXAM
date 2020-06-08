@@ -18,6 +18,7 @@ set(HEADERS
 		includes/HashNode.h
 		includes/HashTable.h
 		includes/HashFunction.h
-		includes/SeparateChainingTable.h)
+		includes/SeparateChainingTable.h
+		includes/LinearProbingTable.h)
 
 add_executable(OOP_EXAM unit-tests/main.cpp ${SOURCES} ${HEADERS})

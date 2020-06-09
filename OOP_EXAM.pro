@@ -37,12 +37,16 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \ \
     includes/AVLTree.h \
     includes/AVLTreeNode.h \
+    includes/BalancedTreeContainer.h \
     includes/BinarySearchTree.h \
     includes/HashFunction.h \
     includes/HashNode.h \
     includes/HashTable.h \
+    includes/HashTableContainer.h \
     includes/Iterator.h \
     includes/LinearProbingTable.h \
+    includes/LinkedListContainer.h \
+    includes/MapContainer.h \
     includes/RedBlackTree.h \
     includes/SeparateChainingTable.h \
     includes/Set.h \

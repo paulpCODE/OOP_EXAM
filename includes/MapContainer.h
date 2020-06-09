@@ -12,8 +12,12 @@
 #include "Iterator.h"
 #include "linkedlists.h"
 
+class VirtualContainer{
+    VirtualContainer();
+};
+
 template <typename KeyType, typename DataType>
-class Container {
+class Container:public VirtualContainer {
 public:
 	virtual bool setValue(KeyType key, DataType* newData) = 0;
 	virtual DataType* getValue(KeyType key) = 0;

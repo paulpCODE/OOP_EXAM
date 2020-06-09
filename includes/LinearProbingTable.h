@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Iterator.h"
 #include "HashTable.h"
@@ -41,7 +41,7 @@ class LinearProbingTable : public HashTable<KeyType, DataType> {
 
 	public:
 		ProbingTableInterator(LinearProbingHashNode<KeyType, DataType>* current, LinearProbingTable<KeyType, DataType>& table, std::size_t currentIndex)
-			: Iterator<LinearProbingHashNode<KeyType, DataType>, ProbingTableInterator<KeyType, DataType>>(current), 
+			: Iterator<LinearProbingHashNode<KeyType, DataType>, ProbingTableInterator<KeyType, DataType>>(current),
 			table(table), currentIndex(currentIndex) {}
 
 		ProbingTableInterator<KeyType, DataType>& operator++() override {
@@ -111,7 +111,7 @@ public:
 
 	~LinearProbingTable(); // деструктор (освобождение памяти)
 
-	ProbingTableInterator<KeyType, DataType> begin() {	
+	ProbingTableInterator<KeyType, DataType> begin() {
 		for (std::size_t i = 0; i < this->capacity; i++) {
 			if (cells[i].state == BUSY) {
 				return ProbingTableInterator<KeyType, DataType>(&cells[i], *this, i);
@@ -122,7 +122,8 @@ public:
 	}
 
 	ProbingTableInterator<KeyType, DataType> end() {
-		return ProbingTableInterator<KeyType, DataType> {nullptr, *this, this->capacity};
+
+		return ProbingTableInterator<KeyType, DataType> {nullptr, * this, this->capacity};
 	}
 
 };
@@ -139,7 +140,7 @@ bool LinearProbingTable<KeyType, DataType>::IsEmpty() const {
 
 // конструктор из размера, хеш-функции и шага пробирования
 template <typename KeyType, typename DataType>
-LinearProbingTable<KeyType, DataType>::LinearProbingTable(int tableSize, int (*h)(KeyType), int q) : HashTable<KeyType, DataType>(tableSize){
+LinearProbingTable<KeyType, DataType>::LinearProbingTable(int tableSize, int (*h)(KeyType), int q) : HashTable<KeyType, DataType>(tableSize) {
 	this->size = 0; // изначально нет элементов
 	this->q = q;
 	this->cells = new LinearProbingHashNode<KeyType, DataType>[tableSize]; // выделяем память под ячейки
@@ -253,11 +254,12 @@ inline bool LinearProbingTable<KeyType, DataType>::set(KeyType key, DataType* da
 		int index = (hash + sequenceLength * q) % this->capacity; // ищем индекс элемента
 
 		// если нашли занятую клетку с нужным ключом
-		if (cells[index].state == BUSY && cells[index].key == key)
+		if (cells[index].state == BUSY && cells[index].key == key) {
 			cells[index].data = data;
 			return true; // значит нашли
+		}
 
-		// если нашли свободную ячейку
+	// если нашли свободную ячейку
 		if (cells[index].state == FREE)
 			return false; // значит нет элемента
 
@@ -291,7 +293,7 @@ DataType* LinearProbingTable<KeyType, DataType>::search(KeyType key) {
 		// если нашли свободную ячейку, значит нет такого элемента
 		if (cells[index].state == FREE)
 			return nullptr;
-			//throw string("No data with this key"); // бросаем исключение
+		//throw string("No data with this key"); // бросаем исключение
 
 		sequenceLength++; // увеличиваем длину пробной последовательности
 	}

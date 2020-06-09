@@ -10,10 +10,9 @@
 #include "SplayTree.h"
 #include <cstddef>
 #include <vector>
-#include <utility>
 
 enum class HashTableType { SeparateChaining, LinearProbing };
-enum class BalancedTreeType { RedBlack, Splay };
+enum class BalancedTreeType { RedBlack, Splay, AVL };
 
 template <typename KeyType, typename DataType>
 class Set {
@@ -23,6 +22,7 @@ public:
 	virtual void remove(KeyType key) = 0;
 
 	virtual void clear() = 0;
+
 
 	virtual std::vector<KeyType> getAllKeys() = 0;
 	virtual std::vector<DataType*> getAllData() = 0;
@@ -110,6 +110,7 @@ public:
 
 	void clear() override { list->clear(); };
 
+
 	std::vector<KeyType> getAllKeys() override { return list->getAllKeys(); }
 	std::vector<DataType*> getAllData() override { return list->getAllData(); }
 	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override { return list->getAllKeysData(); }
@@ -125,15 +126,19 @@ public:
 	BalancedTreeSet(BalancedTreeType type) {
 		switch (type) {
 		case BalancedTreeType::RedBlack:
-			this->tree = new SplayTree<KeyType, DataType>;
+			this->tree = new RedBlackTree<KeyType, DataType>;
 			break;
 
 		case BalancedTreeType::Splay:
 			this->tree = new SplayTree<KeyType, DataType>;
 			break;
 
+		case BalancedTreeType::AVL:
+			this->tree = new AVLTree<KeyType, DataType>;
+			break;
+
 		default:
-			this->tree = new SplayTree<KeyType, DataType>;
+			this->tree = new RedBlackTree<KeyType, DataType>;
 			break;
 		}
 	}
@@ -148,5 +153,4 @@ public:
 	std::vector<KeyType> getAllKeys() override { return tree->getAllKeys(); }
 	std::vector<DataType*> getAllData() override { return tree->getAllData(); }
 	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override { return tree->getAllKeysData(); }
-
 };

@@ -4,14 +4,13 @@
 #include "HashTable.h"
 #include "HashFunction.h"
 #include <vector>
-#include <list>
 #include <cstddef>
 #include <stdexcept>
 
 template <typename KeyType, typename DataType>
 class SeparateChainingTable : public HashTable<KeyType, DataType> {
 private:
-	std::vector<std::list<HashNode<KeyType, DataType>>> buckets;
+	std::vector<std::vector<HashNode<KeyType, DataType>>> buckets;
 	HashFunction hashFunction;
 
 public:

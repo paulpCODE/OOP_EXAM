@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Iterator.h"
 #include "TreeNode.h"
 #include "RedBlackTree.h"
 #include <stdexcept>
@@ -10,6 +11,34 @@ template <typename KeyType, typename DataType>
 class STNode : public BinaryTreeNode<KeyType, DataType, STNode<KeyType, DataType>> {
 public:
 	STNode(KeyType key, DataType* data);
+
+};
+
+template <typename KeyType, typename DataType>
+class SplayIterator : public Iterator<STNode<KeyType, DataType>, SplayIterator<KeyType, DataType>> {
+public:
+	SplayIterator(STNode<KeyType, DataType>* current)
+		: Iterator<STNode<KeyType, DataType>, SplayIterator<KeyType, DataType>>{ current } {}
+
+	SplayIterator<KeyType, DataType>& operator++() override {
+		if (this->current->right)
+		{
+			this->current = this->current->right;
+			while (this->current->left)
+				this->current = this->current->left;
+		}
+		else
+		{
+			STNode<KeyType, DataType>* p = this->current->parent;
+			while (p && this->current == p->right)
+			{
+				this->current = p;
+				p = p->parent;
+			}
+			this->current = p;
+		}
+		return *this;
+	}
 
 };
 
@@ -45,6 +74,20 @@ public:
 	void print(std::ostream& out = std::cout);
 	//! Deletes all nodes.
 	void clear() override;
+
+	SplayIterator<KeyType, DataType> begin() {
+		STNode<KeyType, DataType>* n = this->root;
+		if (n) {
+			while (n->left) {
+				n = n->left;
+			}
+		}
+		return SplayIterator<KeyType, DataType>{ n };
+	}
+
+	SplayIterator<KeyType, DataType> end() {
+		return SplayIterator<KeyType, DataType>{ nullptr };
+	}
 
 };
 

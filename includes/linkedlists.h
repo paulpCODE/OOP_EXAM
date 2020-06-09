@@ -98,6 +98,8 @@ public:
 
     virtual void pop_back() = 0;
 
+    virtual Node<KeyT, ValueT>* getNode(const int index) = 0;
+
 };
 
 
@@ -116,7 +118,7 @@ public:
     void insert(KeyT key,ValueT* value, int index) override ;
     void removeAt(int index) override ;
     void pop_back() override;
-
+    Node<KeyT, ValueT>* getNode(const int index) override;
 
 private:
     int Size;
@@ -263,3 +265,20 @@ void Linked_List<KeyT,ValueT>::pop_back()
     removeAt(Size - 1);
 }
 
+template<class KeyT, class ValueT>
+Node<KeyT, ValueT>* Linked_List<KeyT, ValueT>::getNode(const int index)
+{
+    int counter = 0;
+
+    Node<KeyT, ValueT>* current = this->head;
+
+    while (current != nullptr)
+    {
+        if (counter == index)
+        {
+            return current;
+        }
+        current = current->pNext;
+        counter++;
+    }
+}

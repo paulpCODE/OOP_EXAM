@@ -5,6 +5,8 @@
 #include "RedBlackTree.h"
 #include <stdexcept>
 #include <iostream>
+#include <vector>
+#include <utility>
 
 // Splay tree node
 template <typename KeyType, typename DataType>
@@ -87,6 +89,30 @@ public:
 
 	SplayIterator<KeyType, DataType> end() {
 		return SplayIterator<KeyType, DataType>{ nullptr };
+	}
+
+	std::vector<KeyType> getAllKeys() override {
+		std::vector<KeyType> keys;
+		for (auto& item : *this) {
+			keys.push_back(item.key);
+		}
+		return keys;
+	}
+
+	std::vector<DataType*> getAllData() override {
+		std::vector<DataType*> data;
+		for (auto& item : *this) {
+			data.push_back(item.data);
+		}
+		return data;
+	}
+
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override {
+		std::vector<std::pair<KeyType, DataType*>> pairs;
+		for (auto& pair : *this) {
+			pairs.emplace_back(std::pair<KeyType, DataType*>{pair.key, pair.data});
+		}
+		return pairs;
 	}
 
 };

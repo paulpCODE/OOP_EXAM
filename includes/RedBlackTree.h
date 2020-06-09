@@ -5,6 +5,8 @@
 #include "BinarySearchTree.h"
 #include <iostream>
 #include <stdexcept>
+#include <vector>
+#include <utility>
 
 enum Color {
 	COLOR_RED,
@@ -102,6 +104,30 @@ public:
 
 	RedBlackIterator<KeyType, DataType> end() {
 		return RedBlackIterator<KeyType, DataType>{ nullptr };
+	}
+
+	std::vector<KeyType> getAllKeys() override {
+		std::vector<KeyType> keys;
+		for (auto& item : *this) {
+			keys.push_back(item.key);
+		}
+		return keys;
+	}
+
+	std::vector<DataType*> getAllData() override {
+		std::vector<DataType*> data;
+		for (auto& item : *this) {
+			data.push_back(item.data);
+		}
+		return data;
+	}
+
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override {
+		std::vector<std::pair<KeyType, DataType*>> pairs;
+		for (auto& pair : *this) {
+			pairs.emplace_back(std::pair<KeyType, DataType*>{pair.key, pair.data});
+		}
+		return pairs;
 	}
 
 };

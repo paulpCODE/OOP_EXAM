@@ -8,7 +8,6 @@
 #include "BinarySearchTree.h"
 #include "RedBlackTree.h"
 #include "SplayTree.h"
-#include "AVLTree.h"
 #include <cstddef>
 #include <vector>
 #include <utility>

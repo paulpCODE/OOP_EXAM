@@ -14,8 +14,6 @@ set(HEADERS
 		includes/BinarySearchTree.h
 		includes/RedBlackTree.h
 		includes/SplayTree.h
-		includes/AVLTreeNode.h
-		includes/AVLTree.h
 		includes/HashNode.h
 		includes/HashTable.h
 		includes/HashFunction.h

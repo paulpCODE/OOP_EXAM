@@ -1,14 +1,31 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "includes/SortAlgorithms.h"
+#include <QQmlContext>
+#include "includes/uicontroller.h"
+#include "includes/backendlogic.h"
 
 int main(int argc, char *argv[])
 {
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
 
+    QCoreApplication::setOrganizationName("Four Directions");
+    QCoreApplication::setApplicationName("ExamOop");
+
+    qmlRegisterUncreatableType<DataTypesEnums>("SortVisualizer",1,0,"DataTypes",
+                                               QStringLiteral("This object should not be created in qml"));
+    qRegisterMetaType<DataTypesEnums::DataTypes>("SortEnums::SortChoice");
+    qmlRegisterUncreatableType<SortsEnums>("SortVisualizer",1,0,"SortChoice",
+                                           QStringLiteral("This object should not be created in qml"));
+    qRegisterMetaType<SortsEnums::SortChoice>("SortEnums::SortChoice");
+
+    UiController controller;
+
     QQmlApplicationEngine engine;
+
+    engine.rootContext()->setContextProperty(QStringLiteral("UiController"), &controller);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

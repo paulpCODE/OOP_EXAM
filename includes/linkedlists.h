@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Iterator.h"
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -104,6 +105,23 @@ public:
 template<class KeyT , class ValueT >
 class Linked_List : public AbstractList<KeyT,ValueT>
 {
+    template <typename KeyType, typename DataType>
+    class ListIterator : public Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>> {
+    public:
+        ListIterator(Node<KeyType, DataType>* current)
+            : Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>>(current) {}
+
+        ListIterator<KeyType, DataType>& operator++() override {
+            current = current->pNext;
+            return *this;
+        }
+
+        bool operator!=(const ListIterator<KeyType, DataType>& other) override {
+            return (this->current != other.current);
+        }
+
+    };
+
 public:
     Linked_List() ;
     Linked_List(const vector<std::pair<KeyT, ValueT>> &nodes) ;
@@ -117,6 +135,13 @@ public:
     void removeAt(int index) override ;
     void pop_back() override;
 
+    ListIterator<KeyT, ValueT> begin() {
+        return ListIterator<KeyT, ValueT>{this->head};
+    }
+
+    ListIterator<KeyT, ValueT> end() {
+        return ListIterator<KeyT, ValueT>{nullptr};
+    }
 
 private:
     int Size;

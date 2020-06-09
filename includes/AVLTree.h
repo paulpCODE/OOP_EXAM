@@ -7,7 +7,15 @@ template <typename KeyType, typename DataType>
 class AVLTree : public BinarySearchTree<KeyType, DataType> {
 public:
 	AVLTree() {}
-
+	AVLTree(AVLNode<KeyType, DataType>* root) {
+		if (root != nullptr) {
+			this->root->key = root->key;
+			this->root->data = root->data;
+			this->root->left = root->left;
+			this->root->right = root->right;
+			this->root->height = root->height;
+		}
+	}
 	void insert(KeyType key, DataType* data) { this->root = insertNode(this->root, key, data); }
 	void remove(KeyType key) { this->root = removeNode(this->root, key); }
 	void clear() { clearTree(this->root); }

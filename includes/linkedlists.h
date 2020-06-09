@@ -15,6 +15,7 @@ public:
     ValueT *value;
     Node *pNext;
     Node():key(KeyT{}),value(nullptr),pNext(nullptr){}
+
     Node(KeyT newKey, ValueT *newValue, Node *newPNext = nullptr):key(newKey),value(newValue),pNext(newPNext){}
 
     // DO WE NEED DEEP COPY?
@@ -116,10 +117,8 @@ public:
 
     virtual void pop_back() = 0;
 
-    /** Searches for the value associated with the key 'key'.
-     * Returns the NOT null pointer to value if the search is successful.
-     * Otherwise, returns null pointer.
-     */
+    virtual Node<KeyT, ValueT>* getNode(const int index) = 0;
+
     virtual ValueT* search(KeyT key) = 0;
     virtual void remove(KeyT key) = 0;
 
@@ -143,6 +142,8 @@ public:
     void insert(KeyT key,ValueT* value, int index) override ;
     void removeAt(int index) override ;
     void pop_back() override;
+    
+    Node<KeyT, ValueT>* getNode(const int index) override;
     ValueT* search(KeyT key) override;
     void remove(KeyT key) override;
 
@@ -202,7 +203,7 @@ void Linked_List<KeyT,ValueT>::push_back(KeyT key,ValueT* value)
         {
             current = current->pNext;
         }
-        current->pNext = new Node<KeyT,ValueT>(key,value);
+        current->pNext = new Node<KeyT,ValueT>(key, value);
 
     }
     Size++;
@@ -300,6 +301,23 @@ void Linked_List<KeyT,ValueT>::pop_back()
 }
 
 template<class KeyT, class ValueT>
+Node<KeyT, ValueT>* Linked_List<KeyT, ValueT>::getNode(const int index)
+{
+    int counter = 0;
+
+    Node<KeyT, ValueT>* current = this->head;
+
+    while (current != nullptr)
+    {
+        if (counter == index)
+        {
+            return current;
+        }
+        current = current->pNext;
+        counter++;
+    }
+}
+
 inline ValueT* Linked_List<KeyT, ValueT>::search(KeyT key)
 {
     Node<KeyT, ValueT>* current = this->head;
@@ -330,4 +348,3 @@ inline void Linked_List<KeyT, ValueT>::remove(KeyT key)
     }
 
 }
-

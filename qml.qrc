@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>ChoiceBase.qml</file>
+        <file>ChoiceData.qml</file>
+        <file>Operations.qml</file>
+        <file>TextFields.qml</file>
     </qresource>
 </RCC>

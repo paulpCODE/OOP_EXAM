@@ -95,3 +95,21 @@ public:
     }
 
 };
+
+class AbstractContainerLogic:public QObject{
+    Q_OBJECT
+    AbstractContainerLogic(QObject *parent = nullptr):QObject(parent){}
+
+};
+
+template <typename KeyType, typename DataType>
+class ContainerLogic:public AbstractContainerLogic{
+
+        Container<KeyType,DataType>* containerStrategy;
+
+};
+
+class AbstractSetLogic:public QObject{
+    Q_OBJECT
+    AbstractSetLogic(QObject *parent = nullptr):QObject(parent){}
+};

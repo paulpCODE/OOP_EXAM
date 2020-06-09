@@ -76,7 +76,24 @@ public:
 //    }
 };
 
-template <class KeyT,class ValueT>
+template <typename KeyType, typename DataType>
+class ListIterator : public Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>> {
+public:
+    ListIterator(Node<KeyType, DataType>* current)
+        : Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>>(current) {}
+
+    ListIterator<KeyType, DataType>& operator++() override {
+        current = current->pNext;
+        return *this;
+    }
+
+    bool operator!=(const ListIterator<KeyType, DataType>& other) override {
+        return (this->current != other.current);
+    }
+
+};
+
+template <class KeyT,class ValueT, class IteratorType = ListIterator<KeyT, ValueT>>
 class AbstractList{
 
 public:
@@ -99,29 +116,14 @@ public:
 
     virtual void pop_back() = 0;
 
-};
+    virtual IteratorType begin() = 0;
+    virtual IteratorType end() = 0;
 
+};
 
 template<class KeyT , class ValueT >
 class Linked_List : public AbstractList<KeyT,ValueT>
 {
-    template <typename KeyType, typename DataType>
-    class ListIterator : public Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>> {
-    public:
-        ListIterator(Node<KeyType, DataType>* current)
-            : Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>>(current) {}
-
-        ListIterator<KeyType, DataType>& operator++() override {
-            current = current->pNext;
-            return *this;
-        }
-
-        bool operator!=(const ListIterator<KeyType, DataType>& other) override {
-            return (this->current != other.current);
-        }
-
-    };
-
 public:
     Linked_List() ;
     Linked_List(const vector<std::pair<KeyT, ValueT>> &nodes) ;
@@ -135,11 +137,11 @@ public:
     void removeAt(int index) override ;
     void pop_back() override;
 
-    ListIterator<KeyT, ValueT> begin() {
+    ListIterator<KeyT, ValueT> begin() override {
         return ListIterator<KeyT, ValueT>{this->head};
     }
 
-    ListIterator<KeyT, ValueT> end() {
+    ListIterator<KeyT, ValueT> end() override {
         return ListIterator<KeyT, ValueT>{nullptr};
     }
 

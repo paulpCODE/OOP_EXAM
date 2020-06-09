@@ -116,6 +116,10 @@ public:
 
     virtual void pop_back() = 0;
 
+    /** Searches for the value associated with the key 'key'.
+     * Returns the NOT null pointer to value if the search is successful.
+     * Otherwise, returns null pointer.
+     */
     virtual ValueT* search(KeyT key) = 0;
     virtual void remove(KeyT key) = 0;
 

@@ -4,7 +4,7 @@
 #include <QString>
 #include <QStringList>
 #include <string>
-#include "includes/backendlogic.h"
+#include "backendlogic.h"
 #include <QString>
 
 #ifndef NDEBUG
@@ -175,7 +175,7 @@ public slots:
     void flushDataToSort();
 
     // start sort
-    // TODO time tracking
+    // time tracking
     // in the end updates Q_PROPERTY vectorAfter
     void startSort();
 

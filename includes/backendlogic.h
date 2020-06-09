@@ -98,6 +98,7 @@ public:
 
 class AbstractContainerLogic:public QObject{
     Q_OBJECT
+public:
     AbstractContainerLogic(QObject *parent = nullptr):QObject(parent){}
 
 };
@@ -105,11 +106,17 @@ class AbstractContainerLogic:public QObject{
 template <typename KeyType, typename DataType>
 class ContainerLogic:public AbstractContainerLogic{
 
-        Container<KeyType,DataType>* containerStrategy;
+public:
+    ContainerLogic():AbstractContainerLogic(),containerStrategy(nullptr),tempKey{},tempData{}{}
+    ~ContainerLogic(){delete containerStrategy;}
+    KeyType tempKey;
+    DataType tempData;
+     Container<KeyType,DataType>* containerStrategy;
 
 };
 
 class AbstractSetLogic:public QObject{
     Q_OBJECT
+    public:
     AbstractSetLogic(QObject *parent = nullptr):QObject(parent){}
 };

@@ -134,7 +134,7 @@ void UiController::fillSortVectorWithRandomData(int total)
         setVectorBefore(makeQString(adapterSort.booksToSort));
     }
         break;
-    default:  unreachable("Unhandled special enum constant!");
+    default: qDebug()<<"Unhandled special enum constant!";
     }
 }
 
@@ -150,7 +150,7 @@ void UiController::selectDataType(DataTypesEnums::DataTypes choosenType){
         break;
     case DataTypesEnums::DataTypes::BOOK : adapterSort.sortRealization = new SortLogic<Book>();
         break;
-    default:  unreachable("Unhandled special enum constant!");
+    default:  qDebug()<<"Unhandled special enum constant!";
     }
     choosenDataType = choosenType;
     adapterSort.clearDataToSort();
@@ -184,7 +184,7 @@ void UiController::flushDataToSort(){
         BookDerivedClass->vectorToSort = adapterSort.booksToSort;
     }
         break;
-    default:  unreachable("Unhandled special enum constant!");
+    default: qDebug()<<"Unhandled special enum constant!";
     }
 }
 
@@ -234,7 +234,7 @@ void UiController::startSort(){
         break;
     case DataTypesEnums::DataTypes::BOOK :setVectorAfter(makeQString(recieveSortedVectorBook())) ;
         break;
-    default:  unreachable("Unhandled special enum constant!");
+    default:  qDebug()<<"Unhandled special enum constant!";
     }
 }
 

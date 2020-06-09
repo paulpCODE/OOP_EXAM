@@ -7,14 +7,6 @@
 #include "backendlogic.h"
 #include <QString>
 
-#ifndef NDEBUG
-#define unreachable(MSG) \
-    (assert(0 && MSG), abort())
-#else
-#define unreachable(MSG) \
-    (std::fprintf(stderr, "UNREACHABLE executed at %s:%d\n", \
-    __FILE__, __LINE__), abort())
-#endif
 
 using std::vector;
 using std::string;
@@ -125,11 +117,21 @@ class UiController : public QObject
 
     //------------------------------------container------------------------------------------------------
     struct containerStruct{
-        DataTypesEnums::DataTypes choosenSortType;
         AbstractContainerLogic* containerRealization; // move to thread latter
+        Book keyBook;
+        int keyInt;
+        string keyString;
+
+        Book* valueBook;
+        int* valueInt;
+        string* valueString;
 
         containerStruct():containerRealization(nullptr){}
-        ~containerStruct(){delete containerRealization;}
+        ~containerStruct(){delete containerRealization;
+                          delete valueBook;
+                           delete valueInt;
+                           delete valueString;
+                          }
     }adapterContainer;
 
     DataTypesEnums::DataTypes choosenDataType;

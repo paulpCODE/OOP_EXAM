@@ -1,5 +1,6 @@
 #pragma once
 
+#include "includes/Iterator.h"
 #include "includes/HashNode.h"
 #include "includes/HashTable.h"
 #include "includes/HashFunction.h"
@@ -10,20 +11,20 @@
 template <typename KeyType, typename DataType>
 class SeparateChainingTable : public HashTable<KeyType, DataType> {
 
-	template <typename KeyType, typename DataType>
-	class SeparateChainingIterator : public Iterator<HashNode<KeyType, DataType>, SeparateChainingIterator<KeyType, DataType>> {
+    template <typename KeyT, typename DataT>
+    class SeparateChainingIterator : public Iterator<HashNode<KeyT, DataT>, SeparateChainingIterator<KeyT, DataT>> {
 	private:
-		SeparateChainingTable<KeyType, DataType>& table;
+        SeparateChainingTable<KeyT, DataT>& table;
 		std::size_t rowIndex;
 		std::size_t columnIndex;
 
 	public:
-		SeparateChainingIterator(HashNode<KeyType, DataType>* current, SeparateChainingTable<KeyType,DataType>& table,
+        SeparateChainingIterator(HashNode<KeyT, DataT>* current, SeparateChainingTable<KeyT,DataT>& table,
 			std::size_t rowIndex, std::size_t columnIndex)
-			: Iterator<HashNode<KeyType, DataType>, SeparateChainingIterator<KeyType, DataType>>(current),
+            : Iterator<HashNode<KeyT, DataT>, SeparateChainingIterator<KeyT, DataT>>(current),
 			table{ table }, rowIndex{ rowIndex }, columnIndex{ columnIndex } {}
 
-		SeparateChainingIterator<KeyType, DataType>& operator++() override {
+        SeparateChainingIterator<KeyT, DataT>& operator++() override {
 			bool isFirst = false;
 			while (rowIndex < table.capacity) {
 				if (!isFirst) {
@@ -51,7 +52,7 @@ class SeparateChainingTable : public HashTable<KeyType, DataType> {
 			return *this;
 		}
 
-		bool operator!=(const SeparateChainingIterator<KeyType, DataType>& other) override {
+        bool operator!=(const SeparateChainingIterator<KeyT, DataT>& other) override {
 			if ((rowIndex >= table.capacity) && (other.rowIndex >= table.capacity)) {
 				return false;
 			}

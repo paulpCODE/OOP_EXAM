@@ -1,9 +1,8 @@
 #pragma once
 
-#include "Iterator.h"
-#include "HashNode.h"
-#include "HashTable.h"
-#include "HashFunction.h"
+#include "includes/HashNode.h"
+#include "includes/HashTable.h"
+#include "includes/HashFunction.h"
 #include <vector>
 #include <cstddef>
 #include <stdexcept>

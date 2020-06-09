@@ -313,11 +313,11 @@ Window {
             }
             function selectSortType() {
                 if(choiceDataSort.valueT == "INT")
-                    UiController.selectSortType(DataTypes.INT)
+                    UiController.selectDataType(DataTypes.INT)
                 else if (choiceDataSort.valueT == "STRING")
-                    UiController.selectSortType(DataTypes.STRING)
+                    UiController.selectDataType(DataTypes.STRING)
                 else if (choiceDataSort.valueT == "BOOK")
-                    UiController.selectSortType(DataTypes.BOOK)
+                    UiController.selectDataType(DataTypes.BOOK)
                 else
                     console.log("WRONG DATA TYPE")
             }

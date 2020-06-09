@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
+import Exam 1.0
 
 Item {
     property var keyT: "INT"
@@ -9,6 +10,8 @@ Item {
     property alias keyfields: keyFields
     property alias valfields: valFields
     property alias combobox: comboBox
+
+    signal start()
 
     Rectangle {
         id: workSpace
@@ -91,6 +94,7 @@ Item {
             anchors.bottomMargin: 5
             anchors.horizontalCenter: parent.horizontalCenter
             text: "Start Operation"
+            onClicked: start()
         }
     }
     Text {
@@ -109,10 +113,10 @@ Item {
         height: 200
         TextArea {
             id: structureText
+            text: UiController.vectorBefore
             padding: 2
             wrapMode: TextArea.WordWrap
             readOnly: true
-            //TEXT STRUCTURE
         }
     }
     Text {
@@ -132,9 +136,9 @@ Item {
         TextArea {
             id: result
             readOnly: true
+            text: UiController.vectorAfter
             padding: 2
             wrapMode: TextArea.WordWrap
-            //TEXT RESULTS OF OPERATIONS
         }
     }
     Text {

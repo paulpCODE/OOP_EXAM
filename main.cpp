@@ -14,6 +14,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("Four Directions");
     QCoreApplication::setApplicationName("ExamOop");
 
+    BalancedTreeTypeClass::registerInQml();
+    HashTableTypeClass::registerInQml();
+    SortsEnums::registerInQml();
+    DataTypesEnums::registerInQml();
+
     //
 
     UiController controller;

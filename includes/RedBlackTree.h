@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Iterator.h"
 #include "TreeNode.h"
 #include "BinarySearchTree.h"
 #include <iostream>
@@ -25,6 +26,34 @@ inline RBTreeNode<KeyType, DataType>::RBTreeNode(KeyType key, DataType* data) :
 	color(COLOR_RED)
 {
 }
+
+template <typename KeyType, typename DataType>
+class RedBlackIterator : public Iterator<RBTreeNode<KeyType, DataType>, RedBlackIterator<KeyType, DataType>> {
+public:
+	RedBlackIterator(RBTreeNode<KeyType, DataType>* current)
+		: Iterator<RBTreeNode<KeyType, DataType>, RedBlackIterator<KeyType, DataType>>{ current } {}
+
+	RedBlackIterator<KeyType, DataType>& operator++() override {
+		if (this->current->right)
+		{
+			this->current = this->current->right;
+			while (this->current->left)
+				this->current = this->current->left;
+		}
+		else
+		{
+			RBTreeNode<KeyType, DataType>* p = this->current->parent;
+			while (p && this->current == p->right)
+			{
+				this->current = p;
+				p = p->parent;
+			}
+			this->current = p;
+		}
+		return *this;
+	}
+
+};
 
 template <typename KeyType, typename DataType>
 class RedBlackTree : public BinarySearchTree<KeyType, DataType>
@@ -60,6 +89,20 @@ public:
 	void print(std::ostream& out = std::cout);
 	//! Deletes (free the memory) all nodes.
 	void clear() override;
+
+	RedBlackIterator<KeyType, DataType> begin() {
+		RBTreeNode<KeyType, DataType>* n = this->root;
+		if (n) {
+			while (n->left) {
+				n = n->left;
+			}
+		}
+		return RedBlackIterator<KeyType, DataType>{ n };
+	}
+
+	RedBlackIterator<KeyType, DataType> end() {
+		return RedBlackIterator<KeyType, DataType>{ nullptr };
+	}
 
 };
 

@@ -3,8 +3,10 @@
 #include <QQmlContext>
 #include "includes/uicontroller.h"
 #include "includes/backendlogic.h"
+
 int main(int argc, char *argv[])
 {
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
@@ -14,8 +16,10 @@ int main(int argc, char *argv[])
 
     qmlRegisterUncreatableType<DataTypesEnums>("SortVisualizer",1,0,"DataTypes",
                                                QStringLiteral("This object should not be created in qml"));
+    qRegisterMetaType<DataTypesEnums::DataTypes>("SortEnums::SortChoice");
     qmlRegisterUncreatableType<SortsEnums>("SortVisualizer",1,0,"SortChoice",
                                            QStringLiteral("This object should not be created in qml"));
+    qRegisterMetaType<SortsEnums::SortChoice>("SortEnums::SortChoice");
 
     UiController controller;
 

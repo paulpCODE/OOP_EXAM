@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        src/HashFunction.cpp \
         src/backendlogic.cpp \
         src/randomize.cpp \
         src/uicontroller.cpp
@@ -34,7 +35,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 
 HEADERS += \ \
+    includes/AVLTree.h \
+    includes/AVLTreeNode.h \
+    includes/BinarySearchTree.h \
+    includes/HashFunction.h \
+    includes/HashNode.h \
+    includes/HashTable.h \
+    includes/LinearProbingTable.h \
+    includes/RedBlackTree.h \
+    includes/SeparateChainingTable.h \
     includes/SortAlgorithms.h \
+    includes/SplayTree.h \
+    includes/TreeNode.h \
     includes/backendlogic.h \
     includes/linkedlists.h \
     includes/randomize.h \

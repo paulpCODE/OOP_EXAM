@@ -1,15 +1,46 @@
 #pragma once
 
+#include "Iterator.h"
 #include "TreeNode.h"
 #include "RedBlackTree.h"
 #include <stdexcept>
 #include <iostream>
+#include <vector>
+#include <utility>
 
 // Splay tree node
 template <typename KeyType, typename DataType>
 class STNode : public BinaryTreeNode<KeyType, DataType, STNode<KeyType, DataType>> {
 public:
 	STNode(KeyType key, DataType* data);
+
+};
+
+template <typename KeyType, typename DataType>
+class SplayIterator : public Iterator<STNode<KeyType, DataType>, SplayIterator<KeyType, DataType>> {
+public:
+	SplayIterator(STNode<KeyType, DataType>* current)
+		: Iterator<STNode<KeyType, DataType>, SplayIterator<KeyType, DataType>>{ current } {}
+
+	SplayIterator<KeyType, DataType>& operator++() override {
+		if (this->current->right)
+		{
+			this->current = this->current->right;
+			while (this->current->left)
+				this->current = this->current->left;
+		}
+		else
+		{
+			STNode<KeyType, DataType>* p = this->current->parent;
+			while (p && this->current == p->right)
+			{
+				this->current = p;
+				p = p->parent;
+			}
+			this->current = p;
+		}
+		return *this;
+	}
 
 };
 
@@ -45,6 +76,44 @@ public:
 	void print(std::ostream& out = std::cout);
 	//! Deletes all nodes.
 	void clear() override;
+
+	SplayIterator<KeyType, DataType> begin() {
+		STNode<KeyType, DataType>* n = this->root;
+		if (n) {
+			while (n->left) {
+				n = n->left;
+			}
+		}
+		return SplayIterator<KeyType, DataType>{ n };
+	}
+
+	SplayIterator<KeyType, DataType> end() {
+		return SplayIterator<KeyType, DataType>{ nullptr };
+	}
+
+	std::vector<KeyType> getAllKeys() override {
+		std::vector<KeyType> keys;
+		for (auto& item : *this) {
+			keys.push_back(item.key);
+		}
+		return keys;
+	}
+
+	std::vector<DataType*> getAllData() override {
+		std::vector<DataType*> data;
+		for (auto& item : *this) {
+			data.push_back(item.data);
+		}
+		return data;
+	}
+
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override {
+		std::vector<std::pair<KeyType, DataType*>> pairs;
+		for (auto& pair : *this) {
+			pairs.emplace_back(std::pair<KeyType, DataType*>{pair.key, pair.data});
+		}
+		return pairs;
+	}
 
 };
 

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TreeNode.h"
+#include <vector>
+#include <utility>
 
 template <typename KeyType, typename DataType>
 class BinarySearchTree {
@@ -11,5 +13,9 @@ public:
 
 	virtual TreeNode<KeyType, DataType>* search(KeyType key) = 0;
 	virtual TreeNode<KeyType, DataType>* getRoot() = 0;
+
+	virtual std::vector<KeyType> getAllKeys() = 0;
+	virtual std::vector<DataType*> getAllData() = 0;
+	virtual std::vector<std::pair<KeyType, DataType*>> getAllKeysData() = 0;
 
 };

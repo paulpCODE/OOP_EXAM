@@ -147,6 +147,9 @@ Item {
             anchors.margins: 7
             text: "Continue"
             visible: generate.visible ? false : true
+            onClicked: {
+                i()
+            }
         }
 
 

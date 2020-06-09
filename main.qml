@@ -152,6 +152,7 @@ Window {
             Component.onCompleted: {
                 choiceBaseS.i.connect(plusIndex)
                 choiceDataS.i.connect(plusIndex)
+
             }
 
             ChoiceBase {
@@ -227,14 +228,18 @@ Window {
 
             Component.onCompleted: {
                 choiceDataSort.i.connect(plusIndex)
+                operationsSort.start.connect(startOperation)
+                choiceDataSort.selectSortType.connect(selectSortType)
             }
 
             ChoiceData {
                 id:choiceDataSort
                 visible: sorts.currentIndex == 0 ? true : false
                 keyUse: false
+
+                signal selectSortType()
+
                 addElement.onClicked: {
-                    parent.selectSortType()
                     if(valueT == "BOOK")
                         UiController.addDataToSort(value.firstfield.text,
                                                    value.secondfield.text,
@@ -245,21 +250,19 @@ Window {
                        UiController.addDataToSort(value.firstfield.text)
                 }
                 continueButton.onClicked: {
+                    selectSortType()
                     if(generateChecked) {
-                        parent.selectSortType()
                         UiController.fillSortVectorWithRandomData(amount.text)
                     }
                     UiController.flushDataToSort()
                 }
 
             }
-
             Operations {
                 id: operationsSort
                 keyT: choiceDataSort.keyT
                 valueT: choiceDataSort.valueT
                 visible: sorts.currentIndex == 1 ? true : false
-                Component.onCompleted: start.connect(parent.startOperation)
                 combobox.model: [
                     "SELECTION SORT",
                     "INSERTION SORT",
@@ -271,18 +274,17 @@ Window {
                     keyfields.clearFields()
                     valfields.clearFields()
                     switch(combobox.currentIndex) {
-                    case 0: keyUse = false; valUse = false; UiController.selectSort(SortChoice.SELECTION_SORT)
+                    case 0: keyUse = false; valUse = false;
                         break;
-                    case 1: keyUse = false; valUse = false; UiController.selectSort(SortChoice.INSERTION_SORT)
+                    case 1: keyUse = false; valUse = false;
                         break;
-                    case 2: keyUse = false; valUse = false; UiController.selectSort(SortChoice.QUICK_SORT)
+                    case 2: keyUse = false; valUse = false;
                         break;
-                    case 3: keyUse = false; valUse = false; UiController.selectSort(SortChoice.MERGE_RECURSIVE_SORT)
+                    case 3: keyUse = false; valUse = false;
                         break;
-                    case 4: keyUse = false; valUse = false; UiController.selectSort(SortChoice.MERGE_ITERATIVE_SORT)
+                    case 4: keyUse = false; valUse = false;
                         break;
-                    default: console.log("WRONG ENUM IN SORT SELECT")
-                        break;
+                    default: break;
                     }
                 }
             }
@@ -292,6 +294,21 @@ Window {
                 sorts.currentIndex += 1;
             }
             function startOperation() {
+                switch(operationsSort.combobox.currentIndex) {
+                case 0: UiController.selectSort(SortChoice.SELECTION_SORT)
+                    break;
+                case 1: UiController.selectSort(SortChoice.INSERTION_SORT)
+                    break;
+                case 2: UiController.selectSort(SortChoice.QUICK_SORT)
+                    break;
+                case 3: UiController.selectSort(SortChoice.MERGE_RECURSIVE_SORT)
+                    break;
+                case 4: UiController.selectSort(SortChoice.MERGE_ITERATIVE_SORT)
+                    break;
+                default: console.log("WRONG ENUM IN SORT SELECT")
+                    break;
+                }
+
                 UiController.startSort()
             }
             function selectSortType() {

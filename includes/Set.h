@@ -90,7 +90,7 @@ public:
 	BalancedTreeSet(BalancedTreeType type) {
 		switch (type) {
 		case BalancedTreeType::RedBlack:
-			this->tree = new RedBlackTree<KeyType, DataType>;
+			this->tree = new SplayTree<KeyType, DataType>;
 			break;
 
 		case BalancedTreeType::Splay:
@@ -98,7 +98,7 @@ public:
 			break;
 
 		default:
-			this->tree = new RedBlackTree<KeyType, DataType>;
+			this->tree = new SplayTree<KeyType, DataType>;
 			break;
 		}
 	}

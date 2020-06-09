@@ -14,12 +14,10 @@
 #include "enumerations.h"
 //enum class HashTableType { SeparateChaining, LinearProbing };
 //enum class BalancedTreeType { RedBlack, Splay, AVL };
-class VirtualSet{
-    VirtualSet();
-};
+
 
 template <typename KeyType, typename DataType>
-class Set:public VirtualSet {
+class Set{
 public:
 	virtual void insert(KeyType key, DataType* data) = 0;
 	virtual bool contains(KeyType key) = 0;

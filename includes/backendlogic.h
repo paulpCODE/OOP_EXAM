@@ -5,6 +5,8 @@
 #include <vector>
 #include <QDebug>
 #include "enumerations.h"
+#include "MapContainer.h"
+#include "Set.h"
 using std::vector;
 
 

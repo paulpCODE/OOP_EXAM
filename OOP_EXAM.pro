@@ -50,6 +50,7 @@ HEADERS += \ \
     includes/SplayTree.h \
     includes/TreeNode.h \
     includes/backendlogic.h \
+    includes/enumerations.h \
     includes/linkedlists.h \
     includes/randomize.h \
     includes/uicontroller.h

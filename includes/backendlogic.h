@@ -4,31 +4,10 @@
 #include "randomize.h"
 #include <vector>
 #include <QDebug>
+#include "enumerations.h"
 using std::vector;
 
 
-class SortsEnums : public QObject{
-    Q_GADGET
-public:
-    enum SortChoice{
-        SELECTION_SORT,
-        INSERTION_SORT,
-        QUICK_SORT,
-        MERGE_RECURSIVE_SORT,
-        MERGE_ITERATIVE_SORT,
-    };
-    Q_ENUM(SortChoice)
-};
-class DataTypesEnums : public QObject{
-    Q_GADGET
-public:
-    enum DataTypes{
-        INT,
-        STRING,
-        BOOK
-    };
-    Q_ENUM(DataTypes)
-};
 template <class T>
 class SortFactory
 {

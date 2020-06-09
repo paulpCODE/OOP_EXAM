@@ -3,6 +3,8 @@
 #include "HashNode.h"
 #include <cstddef>
 #include <stdexcept>
+#include <vector>
+#include <utility>
 
 template <typename KeyType, typename DataType>
 class HashTable {
@@ -46,5 +48,9 @@ public:
 	
 	//! Clears the hash table. Removes all keys from the table.
 	virtual void clear() = 0;
+
+	virtual std::vector<KeyType> getAllKeys() = 0;
+	virtual std::vector<DataType*> getAllData() = 0;
+	virtual std::vector<std::pair<KeyType, DataType*>> getAllKeysData() = 0;
 
 };

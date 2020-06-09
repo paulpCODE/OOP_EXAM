@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Iterator.h"
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <utility>
 
 using std::pair;
 using std::vector;
@@ -14,7 +16,8 @@ public:
     ValueT *value;
     Node *pNext;
     Node():key(KeyT{}),value(nullptr),pNext(nullptr){}
-    Node(KeyT newKey, ValueT* newValue, Node* newPNext = nullptr) :key(newKey), value(newValue), pNext(newPNext) {}
+
+    Node(KeyT newKey, ValueT *newValue, Node *newPNext = nullptr):key(newKey),value(newValue),pNext(newPNext){}
 
     // DO WE NEED DEEP COPY?
 //    // assumes data is initialized
@@ -75,7 +78,24 @@ public:
 //    }
 };
 
-template <class KeyT,class ValueT>
+template <typename KeyType, typename DataType>
+class ListIterator : public Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>> {
+public:
+    ListIterator(Node<KeyType, DataType>* current)
+        : Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>>(current) {}
+
+    ListIterator<KeyType, DataType>& operator++() override {
+        current = current->pNext;
+        return *this;
+    }
+
+    bool operator!=(const ListIterator<KeyType, DataType>& other) override {
+        return (this->current != other.current);
+    }
+
+};
+
+template <class KeyT,class ValueT, class IteratorType = ListIterator<KeyT, ValueT>>
 class AbstractList{
 
 public:
@@ -100,8 +120,17 @@ public:
 
     virtual Node<KeyT, ValueT>* getNode(const int index) = 0;
 
-};
+    virtual ValueT* search(KeyT key) = 0;
+    virtual void remove(KeyT key) = 0;
 
+    virtual IteratorType begin() = 0;
+    virtual IteratorType end() = 0;
+
+    virtual std::vector<KeyT> getAllKeys() = 0;
+    virtual std::vector<ValueT*> getAllData() = 0;
+    virtual std::vector<std::pair<KeyT, ValueT*>> getAllKeysData() = 0;
+
+};
 
 template<class KeyT , class ValueT >
 class Linked_List : public AbstractList<KeyT,ValueT>
@@ -109,6 +138,9 @@ class Linked_List : public AbstractList<KeyT,ValueT>
 public:
     Linked_List() ;
     Linked_List(const vector<std::pair<KeyT, ValueT>> &nodes) ;
+    ~Linked_List() {
+        clear();
+    }
     void pop_front() override ;
     void push_back(KeyT key,ValueT* value) override ;
     void clear() override ;
@@ -118,7 +150,42 @@ public:
     void insert(KeyT key,ValueT* value, int index) override ;
     void removeAt(int index) override ;
     void pop_back() override;
+    
     Node<KeyT, ValueT>* getNode(const int index) override;
+    ValueT* search(KeyT key) override;
+    void remove(KeyT key) override;
+
+    ListIterator<KeyT, ValueT> begin() override {
+        return ListIterator<KeyT, ValueT>{this->head};
+    }
+
+    ListIterator<KeyT, ValueT> end() override {
+        return ListIterator<KeyT, ValueT>{nullptr};
+    }
+
+    std::vector<KeyT> getAllKeys() override {
+        std::vector<KeyT> keys;
+        for (auto& item : *this) {
+            keys.push_back(item.key);
+        }
+        return keys;
+    }
+
+    std::vector<ValueT*> getAllData() override {
+        std::vector<ValueT*> data;
+        for (auto& item : *this) {
+            data.push_back(item.value);
+        }
+        return data;
+    }
+
+    std::vector<std::pair<KeyT, ValueT*>> getAllKeysData() override {
+        std::vector<std::pair<KeyT, ValueT*>> pairs;
+        for (auto& pair : *this) {
+            pairs.emplace_back(std::pair<KeyT, ValueT*>{pair.key, pair.value});
+        }
+        return pairs;
+    }
 
 private:
     int Size;
@@ -281,4 +348,35 @@ Node<KeyT, ValueT>* Linked_List<KeyT, ValueT>::getNode(const int index)
         current = current->pNext;
         counter++;
     }
+}
+
+inline ValueT* Linked_List<KeyT, ValueT>::search(KeyT key)
+{
+    Node<KeyT, ValueT>* current = this->head;
+    while (current) {
+        if (current->key == key) {
+            return current->value;
+        }
+
+        current = current->pNext;
+    }
+    return nullptr;
+}
+
+template<class KeyT, class ValueT>
+inline void Linked_List<KeyT, ValueT>::remove(KeyT key)
+{
+    int index = 0;
+    Node<KeyT, ValueT>* current = this->head;  
+
+    while (current) {
+        if (current->key == key) {
+            removeAt(index);
+            return;
+        }
+
+        index++;
+        current = current->pNext;
+    }
+
 }

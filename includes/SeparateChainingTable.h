@@ -1,17 +1,69 @@
 #pragma once
 
-#include "HashNode.h"
-#include "HashTable.h"
-#include "HashFunction.h"
+#include "includes/HashNode.h"
+#include "includes/HashTable.h"
+#include "includes/HashFunction.h"
 #include <vector>
-#include <list>
 #include <cstddef>
 #include <stdexcept>
+#include <utility>
 
 template <typename KeyType, typename DataType>
 class SeparateChainingTable : public HashTable<KeyType, DataType> {
+
+	template <typename KeyType, typename DataType>
+	class SeparateChainingIterator : public Iterator<HashNode<KeyType, DataType>, SeparateChainingIterator<KeyType, DataType>> {
+	private:
+		SeparateChainingTable<KeyType, DataType>& table;
+		std::size_t rowIndex;
+		std::size_t columnIndex;
+
+	public:
+		SeparateChainingIterator(HashNode<KeyType, DataType>* current, SeparateChainingTable<KeyType,DataType>& table,
+			std::size_t rowIndex, std::size_t columnIndex)
+			: Iterator<HashNode<KeyType, DataType>, SeparateChainingIterator<KeyType, DataType>>(current),
+			table{ table }, rowIndex{ rowIndex }, columnIndex{ columnIndex } {}
+
+		SeparateChainingIterator<KeyType, DataType>& operator++() override {
+			bool isFirst = false;
+			while (rowIndex < table.capacity) {
+				if (!isFirst) {
+					columnIndex++;
+					isFirst = false;
+				}
+				
+				if (columnIndex >= table.buckets[rowIndex].size()) {
+					rowIndex++;
+					columnIndex = 0;
+					isFirst = true;
+				}
+				else {
+					break;
+				}
+			}
+
+			if (rowIndex >= table.capacity) {
+				this->current = nullptr;
+			}
+			else {
+				this->current = &(table.buckets[rowIndex][columnIndex]);
+			}
+
+			return *this;
+		}
+
+		bool operator!=(const SeparateChainingIterator<KeyType, DataType>& other) override {
+			if ((rowIndex >= table.capacity) && (other.rowIndex >= table.capacity)) {
+				return false;
+			}
+
+			return ((rowIndex != other.rowIndex) || (columnIndex != other.columnIndex));
+		}
+
+	};
+
 private:
-	std::vector<std::list<HashNode<KeyType, DataType>>> buckets;
+	std::vector<std::vector<HashNode<KeyType, DataType>>> buckets;
 	HashFunction hashFunction;
 public:
 	SeparateChainingTable(std::size_t capacity);
@@ -21,6 +73,47 @@ public:
 	DataType* search(KeyType key) override;
 	bool remove(KeyType key) override;	
 	void clear() override;
+
+	std::vector<KeyType> getAllKeys() override {
+		std::vector<KeyType> keys;
+		for (auto& item : *this) {
+			keys.push_back(item.key);
+		}
+		return keys;
+	}
+
+	std::vector<DataType*> getAllData() override {
+		std::vector<DataType*> data;
+		for (auto& item : *this) {
+			data.push_back(item.data);
+		}
+		return data;
+	}
+
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override {
+		std::vector<std::pair<KeyType, DataType*>> pairs;
+		for (auto& pair : *this) {
+			pairs.emplace_back(std::pair<KeyType, DataType*>{pair.key, pair.data});
+		}
+		return pairs;
+	}
+
+	SeparateChainingIterator<KeyType, DataType> begin() {
+		std::size_t tableSize = buckets.size();
+		std::size_t bucketSize = 0;
+		for (std::size_t i = 0; i < tableSize; i++) {
+			bucketSize = buckets[i].size();
+			for (std::size_t j = 0; j < bucketSize; j++) {
+				return SeparateChainingIterator<KeyType, DataType> {&buckets[i][j], * this, i, j};
+			}
+		}
+
+		return SeparateChainingIterator<KeyType, DataType> {nullptr, * this, this->capacity, 0};
+	}
+
+	SeparateChainingIterator<KeyType, DataType> end() {
+		return SeparateChainingIterator<KeyType, DataType> {nullptr, * this, this->capacity, 0};
+	}
 
 };
 

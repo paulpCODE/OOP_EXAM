@@ -14,7 +14,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        src/HashFunction.cpp \
+        src/backendlogic.cpp \
+        src/randomize.cpp \
+        src/uicontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,8 +35,22 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 
 HEADERS += \ \
+    includes/AVLTree.h \
+    includes/AVLTreeNode.h \
+    includes/BinarySearchTree.h \
+    includes/HashFunction.h \
+    includes/HashNode.h \
+    includes/HashTable.h \
+    includes/LinearProbingTable.h \
+    includes/RedBlackTree.h \
+    includes/SeparateChainingTable.h \
     includes/SortAlgorithms.h \
-    includes/linkedlists.h
+    includes/SplayTree.h \
+    includes/TreeNode.h \
+    includes/backendlogic.h \
+    includes/linkedlists.h \
+    includes/randomize.h \
+    includes/uicontroller.h
 
 
 

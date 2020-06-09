@@ -9,7 +9,7 @@
 #include "HashFunction.h"
 #include "LinearProbingTable.h"
 #include "SeparateChainingTable.h"
-
+#include "Iterator.h"
 #include "linkedlists.h"
 
 template <typename KeyType, typename DataType>

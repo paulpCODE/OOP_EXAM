@@ -24,8 +24,10 @@ public:
 		{
 		case 0:
 			this->list = factory.createSingularLinkedList();
+			break;
 		case 1:
 			this->list = factory.createDoubleLinkedList();
+			break;
 		default:
 			throw std::string("Invalid parament");
 		}
@@ -46,8 +48,10 @@ inline bool LinkedListContainer<KeyType, DataType>::setValue(KeyType key, DataTy
 	for (int i = 0; i < list->GetSize(); i++) {
 		if (list->getNode(i)->key == key) {
 			list->getNode(i)->value = newData;
+			return true;
 		}
 	}
+	return false;
 }
 
 template<typename KeyType, typename DataType>

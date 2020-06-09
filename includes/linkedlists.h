@@ -116,6 +116,8 @@ public:
 
     virtual void pop_back() = 0;
 
+    virtual ValueT* search(KeyT key) = 0;
+
     virtual IteratorType begin() = 0;
     virtual IteratorType end() = 0;
 
@@ -136,6 +138,7 @@ public:
     void insert(KeyT key,ValueT* value, int index) override ;
     void removeAt(int index) override ;
     void pop_back() override;
+    ValueT* search(KeyT key) override;
 
     ListIterator<KeyT, ValueT> begin() override {
         return ListIterator<KeyT, ValueT>{this->head};
@@ -288,5 +291,19 @@ template <class KeyT,class ValueT>
 void Linked_List<KeyT,ValueT>::pop_back()
 {
     removeAt(Size - 1);
+}
+
+template<class KeyT, class ValueT>
+inline ValueT* Linked_List<KeyT, ValueT>::search(KeyT key)
+{
+    Node<KeyT, ValueT>* current = this->head;
+    while (current) {
+        if (current->key == key) {
+            return current->value;
+        }
+
+        current = current->pNext;
+    }
+    return nullptr;
 }
 

@@ -23,6 +23,11 @@ public:
 
 	virtual void clear() = 0;
 
+
+	virtual std::vector<KeyType> getAllKeys() = 0;
+	virtual std::vector<DataType*> getAllData() = 0;
+	virtual std::vector<std::pair<KeyType, DataType*>> getAllKeysData() = 0;
+
 	virtual void unionise(Set<KeyType, DataType>& other) {
 		std::vector<std::pair<KeyType, DataType*>> pairs = other.getAllKeysData();
 		for (auto& pair : pairs) {
@@ -84,6 +89,10 @@ public:
 
 	void clear() override { table->clear(); };
 
+	std::vector<KeyType> getAllKeys() override { return table->getAllKeys(); }
+	std::vector<DataType*> getAllData() override { return table->getAllData(); }
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override { return table->getAllKeysData(); }
+
 };
 
 template <typename KeyType, typename DataType>
@@ -100,6 +109,12 @@ public:
 	void remove(KeyType key) override { list->remove(key); }
 
 	void clear() override { list->clear(); };
+
+
+	std::vector<KeyType> getAllKeys() override { return list->getAllKeys(); }
+	std::vector<DataType*> getAllData() override { return list->getAllData(); }
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override { return list->getAllKeysData(); }
+
 };
 
 template <typename KeyType, typename DataType>
@@ -133,5 +148,9 @@ public:
 	bool contains(KeyType key) override { return tree->search(key); }
 	void remove(KeyType key) override { tree->remove(key); }
 
-	void clear() override { list->clear(); };
+	void clear() override { tree->clear(); };
+
+	std::vector<KeyType> getAllKeys() override { return tree->getAllKeys(); }
+	std::vector<DataType*> getAllData() override { return tree->getAllData(); }
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override { return tree->getAllKeysData(); }
 };

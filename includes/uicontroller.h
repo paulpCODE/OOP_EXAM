@@ -84,7 +84,7 @@ class UiController : public QObject
     Q_OBJECT
     Q_PROPERTY(QString vectorBefore READ vectorBefore WRITE setVectorBefore NOTIFY vectorBeforeChanged)
     Q_PROPERTY(QString vectorAfter READ vectorAfter WRITE setVectorAfter NOTIFY vectorAfterChanged)
-    //TO DO Time passed
+    Q_PROPERTY(int timePassed READ timePassed WRITE setTimePassed NOTIFY timePassedChanged)
 
     // random objects generation
     std::string generateRandomString(std::size_t length);
@@ -131,6 +131,8 @@ class UiController : public QObject
 
     QString m_vectorAfter;
 
+    int m_timePassed;
+
 public:
     explicit UiController(QObject *parent = nullptr);
 
@@ -138,6 +140,11 @@ public:
 QString vectorBefore() const;
 
 QString vectorAfter() const;
+
+int timePassed() const
+{
+    return m_timePassed;
+}
 
 public slots:
 //-------------------------------add elements to sort-------------------------------------------------
@@ -181,7 +188,17 @@ public slots:
     void setVectorBefore(QString vectorBefore);
     void setVectorAfter(QString vectorAfter);
 
+    void setTimePassed(int timePassed)
+    {
+        if (m_timePassed == timePassed)
+            return;
+
+        m_timePassed = timePassed;
+        emit timePassedChanged(m_timePassed);
+    }
+
 signals:
     void vectorBeforeChanged(QString vectorBefore);
     void vectorAfterChanged(QString vectorAfter);
+    void timePassedChanged(int timePassed);
 };

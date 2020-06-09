@@ -212,9 +212,19 @@ vector<int> UiController::recieveSortedVectorInt()
 void UiController::startSort(){
 
 
-    // TO DO time before
+
+
+
+    // time before
+     unsigned int start_time =  clock();
+
+     // start sort
     adapterSort.sortRealization->sort();
-    // TO DO time after
+
+    // time after
+    unsigned int end_time = clock();
+    unsigned int search_time = end_time - start_time;
+    setTimePassed(search_time);
 
     //update Q_PROPERTY vectorAfter
     switch (adapterSort.choosenSortType) {

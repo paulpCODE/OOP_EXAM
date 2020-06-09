@@ -37,9 +37,9 @@ public:
 	DataType* getValue(KeyType key);
 	void addValue(KeyType key, DataType* data);
 	void remove(KeyType key);
-	//std::vector<KeyType> getAllKeys();
-	//std::vector<DataType*> getAllValues();
-	//std::vector<std::pair<KeyType, DataType*>> getKeyValuesPairs();
+	std::vector<KeyType> getAllKeys();
+	std::vector<DataType*> getAllData();
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData();
 };
 
 template<typename KeyType, typename DataType>
@@ -81,38 +81,20 @@ inline void LinkedListContainer<KeyType, DataType>::remove(KeyType key)
 	}
 }
 
-//template<typename KeyType, typename DataType>
-//inline std::vector<KeyType> LinkedListContainer<KeyType, DataType>::getAllKeys()
-//{
-//	std::vector<KeyType> res;
-//
-//	for (auto& item : table) {
-//		res.push_back(item.key);
-//	}
-//
-//	return res;
-//}
+template<typename KeyType, typename DataType>
+inline std::vector<KeyType> LinkedListContainer<KeyType, DataType>::getAllKeys()
+{
+	return list->getAllKeys();
+}
 
-//template<typename KeyType, typename DataType>
-//inline std::vector<DataType*> LinkedListContainer<KeyType, DataType>::getAllValues()
-//{
-//	std::vector<KeyType> res;
-//
-//	for (auto& item : table) {
-//		res.push_back(item.value);
-//	}
-//
-//	return res;
-//}
+template<typename KeyType, typename DataType>
+inline std::vector<DataType*> LinkedListContainer<KeyType, DataType>::getAllData()
+{
+	return list->getAllData();
+}
 
-//template<typename KeyType, typename DataType>
-//inline std::vector<std::pair<KeyType, DataType*>> LinkedListContainer<KeyType, DataType>::getKeyValuesPairs()
-//{
-//	std::vector<std::pair<KeyType, DataType*>> res;
-//
-//	for (auto& item : list) {
-//		res.push_back(std::pair<KeyType, DataType>{ item.key, item.value });
-//	}
-//
-//	return res;
-//}
+template<typename KeyType, typename DataType>
+inline std::vector<std::pair<KeyType, DataType*>> LinkedListContainer<KeyType, DataType>::getAllKeysData()
+{
+	return list->getAllKeysData();
+}

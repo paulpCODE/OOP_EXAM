@@ -5,14 +5,14 @@
 template <typename KeyType, typename DataType>
 class TreeAbstractFactory {
 public:
-	BinarySearchTree<KeyType, DataType>* createAVLTree() const {
-		return new AVLTree<KeyType, DataType>;
-	}
+	//BinarySearchTree<KeyType, DataType>* createAVLTree() const {
+	//	return new AVLTree<KeyType, DataType>;
+	//}
 	BinarySearchTree<KeyType, DataType>* createSplayTree() const {
 		return new SplayTree<KeyType, DataType>;
 	}
 	BinarySearchTree<KeyType, DataType>* createRBTree() const {
-		return new RedBlackTree<KeyType, DataType>;
+		return new SplayTree<KeyType, DataType>;
 	}
 };
 
@@ -20,14 +20,13 @@ template <typename KeyType, typename DataType>
 class BalancedTreeContainer : public Container<KeyType, DataType> {
 public:
 	BinarySearchTree<KeyType, DataType>* tree;
-	// TODO: ENUM!!
 	BalancedTreeContainer(int index) {
 		TreeAbstractFactory<KeyType, DataType> factory;
 		switch (index)
 		{
-		case 0:
-			this->tree = factory.createAVLTree();
-			break;
+		//case 0:
+		//	this->tree = factory.createAVLTree();
+		//	break;
 		case 1:
 			this->tree = factory.createSplayTree();
 			break;
@@ -43,9 +42,9 @@ public:
 	DataType* getValue(KeyType key) override;
 	void addValue(KeyType key, DataType* data) override;
 	void remove(KeyType key) override;
-	//std::vector<KeyType> getAllKeys();
-	//std::vector<DataType*> getAllValues();
-	//std::vector<std::pair<KeyType, DataType*>> getKeyValuesPairs();
+	std::vector<KeyType> getAllKeys();
+	std::vector<DataType*> getAllData();
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData();
 };
 
 template<typename KeyType, typename DataType>
@@ -80,39 +79,21 @@ inline void BalancedTreeContainer<KeyType, DataType>::remove(KeyType key)
 	this->tree->remove(key);
 }
 
-//
-//template<typename KeyType, typename DataType>
-//inline std::vector<std::pair<KeyType, DataType*>> BalancedTreeContainer<KeyType, DataType>::getKeyValuesPairs()
-//{
-//	std::vector<std::pair<KeyType, DataType*>> res;
-//
-//	for (auto& item : tree) {
-//		res.push_back(std::pair<KeyType, DataType>{ item.key, item.data });
-//	}
-//
-//	return res;
-//}
 
-//template<typename KeyType, typename DataType>
-//inline std::vector<DataType*> BalancedTreeContainer<KeyType, DataType>::getAllValues()
-//{
-//	std::vector<KeyType> res;
-//
-//	for (auto& item : tree) {
-//		res.push_back(item.data);
-//	}
-//
-//	return res;
-//}
+template<typename KeyType, typename DataType>
+inline std::vector<std::pair<KeyType, DataType*>> BalancedTreeContainer<KeyType, DataType>::getAllKeysData()
+{
+	return tree->getAllKeysData();
+}
 
-//template<typename KeyType, typename DataType>
-//inline std::vector<KeyType> BalancedTreeContainer<KeyType, DataType>::getAllKeys()
-//{
-//	std::vector<KeyType> res;
-//
-//	for (auto& item : tree) {
-//		res.push_back(item.key);
-//	}
-//
-//	return res;
-//}
+template<typename KeyType, typename DataType>
+inline std::vector<DataType*> BalancedTreeContainer<KeyType, DataType>::getAllData()
+{
+	return tree->getAllData();
+}
+
+template<typename KeyType, typename DataType>
+inline std::vector<KeyType> BalancedTreeContainer<KeyType, DataType>::getAllKeys()
+{
+	return tree->getAllKeys();
+}

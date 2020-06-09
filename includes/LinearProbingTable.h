@@ -254,9 +254,10 @@ inline bool LinearProbingTable<KeyType, DataType>::set(KeyType key, DataType* da
 		int index = (hash + sequenceLength * q) % this->capacity; // ищем индекс элемента
 
 		// если нашли занятую клетку с нужным ключом
-		if (cells[index].state == BUSY && cells[index].key == key)
+		if (cells[index].state == BUSY && cells[index].key == key) {
 			cells[index].data = data;
-		return true; // значит нашли
+			return true; // значит нашли
+		}
 
 	// если нашли свободную ячейку
 		if (cells[index].state == FREE)

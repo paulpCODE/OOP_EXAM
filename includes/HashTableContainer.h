@@ -38,9 +38,9 @@ public:
 	DataType* getValue(KeyType key);
 	void addValue(KeyType key, DataType* data);
 	void remove(KeyType key);
-	//std::vector<KeyType> getAllKeys();
-	//std::vector<DataType*> getAllValues();
-	//std::vector<std::pair<KeyType, DataType*>> getKeyValuesPairs();
+	std::vector<KeyType> getAllKeys();
+	std::vector<DataType*> getAllData();
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData();
 };
 
 template<typename KeyType, typename DataType>
@@ -67,39 +67,21 @@ inline void HashTableContainer<KeyType, DataType>::remove(KeyType key)
 {
 	this->table->remove(key);
 }
-//
-//template<typename KeyType, typename DataType>
-//inline std::vector<std::pair<KeyType, DataType*>> HashTableContainer<KeyType, DataType>::getKeyValuesPairs()
-//{
-//	std::vector<std::pair<KeyType, DataType*>> res;
-//
-//	for (auto& item : table) {
-//		res.push_back(std::pair<KeyType, DataType>{ item.key, item.data });
-//	}
-//
-//	return res;
-//}
 
-//template<typename KeyType, typename DataType>
-//inline std::vector<DataType*> HashTableContainer<KeyType, DataType>::getAllValues()
-//{
-//	std::vector<KeyType> res;
-//
-//	for (auto& item : table) {
-//		res.push_back(item.data);
-//	}
-//
-//	return res;
-//}
+template<typename KeyType, typename DataType>
+inline std::vector<std::pair<KeyType, DataType*>> HashTableContainer<KeyType, DataType>::getAllKeysData()
+{
+	return table->getAllKeysData();
+}
 
-//template<typename KeyType, typename DataType>
-//inline std::vector<KeyType> HashTableContainer<KeyType, DataType>::getAllKeys()
-//{
-//	std::vector<KeyType> res;
-//
-//	for (auto& item : table) {
-//		res.push_back(item.key);
-//	}
-//
-//	return res;
-//}
+template<typename KeyType, typename DataType>
+inline std::vector<DataType*> HashTableContainer<KeyType, DataType>::getAllData()
+{
+	return table->getAllData();
+}
+
+template<typename KeyType, typename DataType>
+inline std::vector<KeyType> HashTableContainer<KeyType, DataType>::getAllKeys()
+{
+	return table->getAllKeys();
+}

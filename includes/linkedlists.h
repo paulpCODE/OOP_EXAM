@@ -85,7 +85,7 @@ public:
         : Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>>(current) {}
 
     ListIterator<KeyType, DataType>& operator++() override {
-        current = current->pNext;
+        this->current = this->current->pNext;
         return *this;
     }
 
@@ -350,6 +350,7 @@ Node<KeyT, ValueT>* Linked_List<KeyT, ValueT>::getNode(const int index)
     }
 }
 
+template<class KeyT, class ValueT>
 inline ValueT* Linked_List<KeyT, ValueT>::search(KeyT key)
 {
     Node<KeyT, ValueT>* current = this->head;

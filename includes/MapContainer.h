@@ -3,7 +3,6 @@
 #include <tuple>
 
 #include "SplayTree.h"
-#include "AVLTree.h"
 #include "RedBlackTree.h"
 
 #include "HashFunction.h"
@@ -19,7 +18,7 @@ public:
 	virtual DataType* getValue(KeyType key) = 0;
 	virtual void addValue(KeyType key, DataType* data) = 0;
 	virtual void remove(KeyType key) = 0;
-	//virtual std::vector<KeyType> getAllKeys() = 0;
-	//virtual std::vector<DataType*> getAllValues() = 0;
-	//virtual std::vector<std::pair<KeyType, DataType*>> getKeyValuesPairs() = 0;
+	virtual std::vector<KeyType> getAllKeys() = 0;
+	virtual std::vector<DataType*> getAllData() = 0;
+	virtual std::vector<std::pair<KeyType, DataType*>> getAllKeysData() = 0;
 };

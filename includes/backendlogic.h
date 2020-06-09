@@ -9,7 +9,6 @@
 #include "Set.h"
 using std::vector;
 
-
 template <class T>
 class SortFactory
 {
@@ -100,18 +99,43 @@ class AbstractContainerLogic:public QObject{
     Q_OBJECT
 public:
     AbstractContainerLogic(QObject *parent = nullptr):QObject(parent){}
-
 };
 
 template <typename KeyType, typename DataType>
 class ContainerLogic:public AbstractContainerLogic{
 
 public:
-    ContainerLogic():AbstractContainerLogic(),containerStrategy(nullptr),tempKey{},tempData{}{}
+    ContainerLogic():AbstractContainerLogic(),containerStrategy(nullptr){}
     ~ContainerLogic(){delete containerStrategy;}
-    KeyType tempKey;
-    DataType tempData;
-     Container<KeyType,DataType>* containerStrategy;
+
+    void setValue(KeyType key, DataType* newData){
+        if(!containerStrategy->setValue(key,newData)){
+            qDebug()<<"can't set Value ";
+        }
+        return;
+    }
+
+    DataType* getValue(KeyType key){
+        return containerStrategy->getValue(key);
+    }
+
+    void addValue(KeyType key, DataType* data){
+        containerStrategy->addValue(key,data);
+    }
+    void remove(KeyType key){
+        containerStrategy->remove(key);
+    }
+    std::vector<KeyType> getAllKeys() {
+       // return containerStrategy->getAllKeys();
+    }
+    std::vector<DataType*> getAllValues() {
+       // return containerStrategy->getAllValues();
+    }
+    std::vector<std::pair<KeyType, DataType*>> getKeyValuesPairs(){
+       // return containerStrategy->getKeyValuesPairs();
+    }
+
+    Container<KeyType,DataType>* containerStrategy;
 
 };
 

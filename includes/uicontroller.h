@@ -103,9 +103,8 @@ class UiController : public QObject
 
 
 
-//------------------------------------sorting-------------------------------------------------------
+    //------------------------------------sorting-------------------------------------------------------
     struct sortStruct{
-        DataTypesEnums::DataTypes choosenSortType;
         vector<Book> booksToSort;
         vector<int> intToSort;
         vector<string> stringsToSort;
@@ -124,8 +123,16 @@ class UiController : public QObject
 
 
 
-//------------------------------------sortingEnd------------------------------------------------------
+    //------------------------------------container------------------------------------------------------
+    struct containerStruct{
+        DataTypesEnums::DataTypes choosenSortType;
+        AbstractContainerLogic* containerRealization; // move to thread latter
 
+        containerStruct():containerRealization(nullptr){}
+        ~containerStruct(){delete containerRealization;}
+    }adapterContainer;
+
+    DataTypesEnums::DataTypes choosenDataType;
 
     QString m_vectorBefore;
 
@@ -137,17 +144,40 @@ public:
     explicit UiController(QObject *parent = nullptr);
 
 
-QString vectorBefore() const;
+    QString vectorBefore() const;
 
-QString vectorAfter() const;
+    QString vectorAfter() const;
 
-int timePassed() const
-{
-    return m_timePassed;
-}
+    int timePassed() const
+    {
+        return m_timePassed;
+    }
 
 public slots:
-//-------------------------------add elements to sort-------------------------------------------------
+    //------------------------------For every structure-------------------------------------------------
+    // select data type Int String Book
+    // need to be done at FIRST place
+    void selectDataType(DataTypesEnums::DataTypes choosenType);
+
+    //--------------------------------------------------------------------------------------
+
+    //------------------------------container logic------------------------------------------------------
+    void addDataToContainer(QString publisher,QString genre,int yearOfPublishing,QString author,QString bookTitle){
+
+    }
+    void addKey(QString publisher,QString genre,int yearOfPublishing,QString author,QString bookTitle){
+
+    }
+    void addValue(QString publisher,QString genre,int yearOfPublishing,QString author,QString bookTitle){
+
+    }
+
+
+
+
+
+
+    //-------------------------------add elements to sort-------------------------------------------------
 
     //add book
     void addDataToSort(QString publisher,QString genre,int yearOfPublishing,QString author,QString bookTitle);
@@ -163,10 +193,7 @@ public slots:
 
 
 
-//--------------------------------Basic sort logic---------------------------------------------------
-    // select data type Int String Book
-    // need to be done at FIRST place
-    void selectSortType(DataTypesEnums::DataTypes choosenType);
+    //--------------------------------Basic sort logic---------------------------------------------------
 
     // select sort
     void selectSort(SortsEnums::SortChoice choosenSort);
@@ -179,7 +206,7 @@ public slots:
     // in the end updates Q_PROPERTY vectorAfter
     void startSort();
 
-//-----------------------------------------
+    //-----------------------------------------
 
 
     //To Do clear all data if exit to main menu

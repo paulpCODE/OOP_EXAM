@@ -118,7 +118,7 @@ void UiController::addDataToSort(int newInt){
 void UiController::fillSortVectorWithRandomData(int total)
 {
     //update Q_PROPERTY vectorBefore
-    switch (adapterSort.choosenSortType) {
+    switch (choosenDataType) {
     case DataTypesEnums::DataTypes::INT :{
         adapterSort.intToSort = generateRandomIntegers(total);
         setVectorBefore(makeQString(adapterSort.intToSort));
@@ -138,7 +138,7 @@ void UiController::fillSortVectorWithRandomData(int total)
     }
 }
 
-void UiController::selectSortType(DataTypesEnums::DataTypes choosenType){
+void UiController::selectDataType(DataTypesEnums::DataTypes choosenType){
     if(adapterSort.sortRealization){
         delete adapterSort.sortRealization;
         adapterSort.sortRealization = nullptr;
@@ -152,7 +152,7 @@ void UiController::selectSortType(DataTypesEnums::DataTypes choosenType){
         break;
     default:  unreachable("Unhandled special enum constant!");
     }
-    adapterSort.choosenSortType = choosenType;
+    choosenDataType = choosenType;
     adapterSort.clearDataToSort();
 }
 
@@ -163,7 +163,7 @@ void UiController::selectSort(SortsEnums::SortChoice choosenSort){
 void UiController::flushDataToSort(){
     AbstractSortLogic* baseClass;
 
-    switch (adapterSort.choosenSortType) {
+    switch (choosenDataType) {
     case DataTypesEnums::DataTypes::INT :{
         baseClass = adapterSort.sortRealization;
         SortLogic<int>* intDerivedClass = dynamic_cast<SortLogic<int>*>(baseClass);
@@ -227,7 +227,7 @@ void UiController::startSort(){
     setTimePassed(search_time);
 
     //update Q_PROPERTY vectorAfter
-    switch (adapterSort.choosenSortType) {
+    switch (choosenDataType) {
     case DataTypesEnums::DataTypes::INT : setVectorAfter(makeQString(recieveSortedVectorInt())) ;
         break;
     case DataTypesEnums::DataTypes::STRING :setVectorAfter(makeQString(recieveSortedVectorString())) ;

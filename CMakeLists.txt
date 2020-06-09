@@ -21,6 +21,7 @@ set(HEADERS
 		includes/HashFunction.h
 		includes/SeparateChainingTable.h
 		includes/LinearProbingTable.h
-		includes/Iterator.h)
+		includes/Iterator.h
+		includes/Set.h)
 
 add_executable(OOP_EXAM unit-tests/main.cpp ${SOURCES} ${HEADERS})

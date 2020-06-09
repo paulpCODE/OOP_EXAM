@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 #include <cstddef>
+#include <vector>
+#include <utility>
 
 using namespace std;
 
@@ -82,6 +84,30 @@ public:
 
 	int GetSize() const; // получение размера
 	bool IsEmpty() const; // проверка на пустоту
+
+	std::vector<KeyType> getAllKeys() override {
+		std::vector<KeyType> keys;
+		for (auto& item : *this) {
+			keys.push_back(item.key);
+		}
+		return keys;
+	}
+
+	std::vector<DataType*> getAllData() override {
+		std::vector<DataType*> data;
+		for (auto& item : *this) {
+			data.push_back(item.data);
+		}
+		return data;
+	}
+
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override {
+		std::vector<std::pair<KeyType, DataType*>> pairs;
+		for (auto& pair : *this) {
+			pairs.emplace_back(std::pair<KeyType, DataType*>{pair.key, pair.data});
+		}
+		return pairs;
+	}
 
 	~LinearProbingTable(); // деструктор (освобождение памяти)
 

@@ -6,6 +6,7 @@
 #include <vector>
 #include <cstddef>
 #include <stdexcept>
+#include <utility>
 
 template <typename KeyType, typename DataType>
 class SeparateChainingTable : public HashTable<KeyType, DataType> {
@@ -72,6 +73,30 @@ public:
 	DataType* search(KeyType key) override;
 	bool remove(KeyType key) override;	
 	void clear() override;
+
+	std::vector<KeyType> getAllKeys() override {
+		std::vector<KeyType> keys;
+		for (auto& item : *this) {
+			keys.push_back(item.key);
+		}
+		return keys;
+	}
+
+	std::vector<DataType*> getAllData() override {
+		std::vector<DataType*> data;
+		for (auto& item : *this) {
+			data.push_back(item.data);
+		}
+		return data;
+	}
+
+	std::vector<std::pair<KeyType, DataType*>> getAllKeysData() override {
+		std::vector<std::pair<KeyType, DataType*>> pairs;
+		for (auto& pair : *this) {
+			pairs.emplace_back(std::pair<KeyType, DataType*>{pair.key, pair.data});
+		}
+		return pairs;
+	}
 
 	SeparateChainingIterator<KeyType, DataType> begin() {
 		std::size_t tableSize = buckets.size();

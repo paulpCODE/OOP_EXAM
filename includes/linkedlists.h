@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <utility>
 
 using std::pair;
 using std::vector;
@@ -125,6 +126,10 @@ public:
     virtual IteratorType begin() = 0;
     virtual IteratorType end() = 0;
 
+    virtual std::vector<KeyT> getAllKeys() = 0;
+    virtual std::vector<ValueT*> getAllData() = 0;
+    virtual std::vector<std::pair<KeyT, ValueT*>> getAllKeysData() = 0;
+
 };
 
 template<class KeyT , class ValueT >
@@ -133,6 +138,9 @@ class Linked_List : public AbstractList<KeyT,ValueT>
 public:
     Linked_List() ;
     Linked_List(const vector<std::pair<KeyT, ValueT>> &nodes) ;
+    ~Linked_List() {
+        clear();
+    }
     void pop_front() override ;
     void push_back(KeyT key,ValueT* value) override ;
     void clear() override ;
@@ -153,6 +161,30 @@ public:
 
     ListIterator<KeyT, ValueT> end() override {
         return ListIterator<KeyT, ValueT>{nullptr};
+    }
+
+    std::vector<KeyT> getAllKeys() override {
+        std::vector<KeyT> keys;
+        for (auto& item : *this) {
+            keys.push_back(item.key);
+        }
+        return keys;
+    }
+
+    std::vector<ValueT*> getAllData() override {
+        std::vector<ValueT*> data;
+        for (auto& item : *this) {
+            data.push_back(item.value);
+        }
+        return data;
+    }
+
+    std::vector<std::pair<KeyT, ValueT*>> getAllKeysData() override {
+        std::vector<std::pair<KeyT, ValueT*>> pairs;
+        for (auto& pair : *this) {
+            pairs.emplace_back(std::pair<KeyT, ValueT*>{pair.key, pair.value});
+        }
+        return pairs;
     }
 
 private:

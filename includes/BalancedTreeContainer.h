@@ -79,3 +79,40 @@ inline void BalancedTreeContainer<KeyType, DataType>::remove(KeyType key)
 {
 	this->tree->remove(key);
 }
+
+//
+//template<typename KeyType, typename DataType>
+//inline std::vector<std::pair<KeyType, DataType*>> BalancedTreeContainer<KeyType, DataType>::getKeyValuesPairs()
+//{
+//	std::vector<std::pair<KeyType, DataType*>> res;
+//
+//	for (auto& item : tree) {
+//		res.push_back(std::pair<KeyType, DataType>{ item.key, item.data });
+//	}
+//
+//	return res;
+//}
+
+//template<typename KeyType, typename DataType>
+//inline std::vector<DataType*> BalancedTreeContainer<KeyType, DataType>::getAllValues()
+//{
+//	std::vector<KeyType> res;
+//
+//	for (auto& item : tree) {
+//		res.push_back(item.data);
+//	}
+//
+//	return res;
+//}
+
+//template<typename KeyType, typename DataType>
+//inline std::vector<KeyType> BalancedTreeContainer<KeyType, DataType>::getAllKeys()
+//{
+//	std::vector<KeyType> res;
+//
+//	for (auto& item : tree) {
+//		res.push_back(item.key);
+//	}
+//
+//	return res;
+//}

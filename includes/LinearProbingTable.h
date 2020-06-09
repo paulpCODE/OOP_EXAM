@@ -31,18 +31,18 @@ public:
 template <typename KeyType, typename DataType>
 class LinearProbingTable : public HashTable<KeyType, DataType> {
 
-	template <typename KeyType, typename DataType>
-	class ProbingTableInterator : public Iterator<LinearProbingHashNode<KeyType, DataType>, ProbingTableInterator<KeyType, DataType>> {
+	template <typename KeyT, typename DataT>
+	class ProbingTableInterator : public Iterator<LinearProbingHashNode<KeyT, DataT>, ProbingTableInterator<KeyT, DataT>> {
 	private:
-		LinearProbingTable<KeyType, DataType>& table;
+		LinearProbingTable<KeyT, DataT>& table;
 		std::size_t currentIndex;
 
 	public:
-		ProbingTableInterator(LinearProbingHashNode<KeyType, DataType>* current, LinearProbingTable<KeyType, DataType>& table, std::size_t currentIndex)
-			: Iterator<LinearProbingHashNode<KeyType, DataType>, ProbingTableInterator<KeyType, DataType>>(current),
+		ProbingTableInterator(LinearProbingHashNode<KeyT, DataT>* current, LinearProbingTable<KeyT, DataT>& table, std::size_t currentIndex)
+			: Iterator<LinearProbingHashNode<KeyT, DataT>, ProbingTableInterator<KeyT, DataT>>(current),
 			table(table), currentIndex(currentIndex) {}
 
-		ProbingTableInterator<KeyType, DataType>& operator++() override {
+		ProbingTableInterator<KeyT, DataT>& operator++() override {
 			do {
 				currentIndex++;
 				this->current++;
@@ -50,7 +50,7 @@ class LinearProbingTable : public HashTable<KeyType, DataType> {
 			return *this;
 		}
 
-		bool operator!=(const ProbingTableInterator<KeyType, DataType>& other) override {
+		bool operator!=(const ProbingTableInterator<KeyT, DataT>& other) override {
 			if ((currentIndex >= table.capacity) && (other.currentIndex >= table.capacity)) {
 				return false;
 			}

@@ -3,7 +3,7 @@
 #include <QQmlContext>
 #include "includes/uicontroller.h"
 #include "includes/backendlogic.h"
-#include "enumerations.h"
+#include "includes/enumerations.h"
 
 int main(int argc, char *argv[])
 {

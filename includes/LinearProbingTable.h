@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Iterator.h"
 #include "HashTable.h"
@@ -96,6 +96,7 @@ public:
 	}
 
 	ProbingTableInterator<KeyType, DataType> end() {
+
 		return ProbingTableInterator<KeyType, DataType> {nullptr, * this, this->capacity};
 	}
 

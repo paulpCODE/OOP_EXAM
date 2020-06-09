@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Iterator.h"
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -14,7 +15,8 @@ public:
     ValueT *value;
     Node *pNext;
     Node():key(KeyT{}),value(nullptr),pNext(nullptr){}
-    Node(KeyT newKey, ValueT* newValue, Node* newPNext = nullptr) :key(newKey), value(newValue), pNext(newPNext) {}
+
+    Node(KeyT newKey, ValueT *newValue, Node *newPNext = nullptr):key(newKey),value(newValue),pNext(newPNext){}
 
     // DO WE NEED DEEP COPY?
 //    // assumes data is initialized
@@ -75,7 +77,24 @@ public:
 //    }
 };
 
-template <class KeyT,class ValueT>
+template <typename KeyType, typename DataType>
+class ListIterator : public Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>> {
+public:
+    ListIterator(Node<KeyType, DataType>* current)
+        : Iterator<Node<KeyType, DataType>, ListIterator<KeyType, DataType>>(current) {}
+
+    ListIterator<KeyType, DataType>& operator++() override {
+        current = current->pNext;
+        return *this;
+    }
+
+    bool operator!=(const ListIterator<KeyType, DataType>& other) override {
+        return (this->current != other.current);
+    }
+
+};
+
+template <class KeyT,class ValueT, class IteratorType = ListIterator<KeyT, ValueT>>
 class AbstractList{
 
 public:
@@ -100,8 +119,13 @@ public:
 
     virtual Node<KeyT, ValueT>* getNode(const int index) = 0;
 
-};
+    virtual ValueT* search(KeyT key) = 0;
+    virtual void remove(KeyT key) = 0;
 
+    virtual IteratorType begin() = 0;
+    virtual IteratorType end() = 0;
+
+};
 
 template<class KeyT , class ValueT >
 class Linked_List : public AbstractList<KeyT,ValueT>
@@ -118,7 +142,18 @@ public:
     void insert(KeyT key,ValueT* value, int index) override ;
     void removeAt(int index) override ;
     void pop_back() override;
+    
     Node<KeyT, ValueT>* getNode(const int index) override;
+    ValueT* search(KeyT key) override;
+    void remove(KeyT key) override;
+
+    ListIterator<KeyT, ValueT> begin() override {
+        return ListIterator<KeyT, ValueT>{this->head};
+    }
+
+    ListIterator<KeyT, ValueT> end() override {
+        return ListIterator<KeyT, ValueT>{nullptr};
+    }
 
 private:
     int Size;
@@ -281,4 +316,35 @@ Node<KeyT, ValueT>* Linked_List<KeyT, ValueT>::getNode(const int index)
         current = current->pNext;
         counter++;
     }
+}
+
+inline ValueT* Linked_List<KeyT, ValueT>::search(KeyT key)
+{
+    Node<KeyT, ValueT>* current = this->head;
+    while (current) {
+        if (current->key == key) {
+            return current->value;
+        }
+
+        current = current->pNext;
+    }
+    return nullptr;
+}
+
+template<class KeyT, class ValueT>
+inline void Linked_List<KeyT, ValueT>::remove(KeyT key)
+{
+    int index = 0;
+    Node<KeyT, ValueT>* current = this->head;  
+
+    while (current) {
+        if (current->key == key) {
+            removeAt(index);
+            return;
+        }
+
+        index++;
+        current = current->pNext;
+    }
+
 }

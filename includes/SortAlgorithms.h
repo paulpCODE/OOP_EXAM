@@ -13,7 +13,7 @@ void swapVec (T * a, T * b) {
 template <class T>
 class SortAlgorithms {
 public:
-    virtual ~SortAlgorithms() {};
+    virtual ~SortAlgorithms() {}
     virtual void sort(std::vector<T> &vec) = 0;
 
 //    virtual void sort(std::vector<int> &vec) = 0;
@@ -42,7 +42,7 @@ public:
             //! Swap the found minimum element with the first element
             swapVec(&vec[min_idx], &vec[i]);            //!
         }
-    };
+    }
 };
 
 //****************************************************************************************
@@ -69,7 +69,7 @@ public:
             }
             vec[j+1] = key;         //!
         }
-    };
+    }
 };
 
 //***************************************************************************************
@@ -83,7 +83,7 @@ class QuickSort : public SortAlgorithms<T>
 public:
     void sort(std::vector<T> &vec) override {
         quickSVec(vec, 0, vec.size()-1);
-    };
+    }
 
     void quickSVec(std::vector<T> &vec, int l, int h) {
         if (l < h) {
@@ -91,7 +91,7 @@ public:
             quickSVec(vec, l, line - 1);
             quickSVec(vec, line + 1, h);
         }
-    };
+    }
     int partitionVec (std::vector<T> &vec, int l, int h) {
         T line = vec[h];
         int i = (l - 1);
@@ -104,7 +104,7 @@ public:
         }
         swapVec (&vec[i + 1], &vec[h]);        //!
         return (i + 1);
-    };
+    }
 };
 
 //***************************************************************************************
@@ -167,7 +167,7 @@ public:
             j++;
             k++;
         }
-    };
+    }
 };
 
 /*!
@@ -179,7 +179,7 @@ class RecMerge : public MergeSort<T>
 public:
     void sort(std::vector<T> &vec) {
         mergeRecVec(vec, 0, vec.size()-1);
-    };
+    }
 
     void mergeRecVec(std::vector<T> &vec, int left, int right) {
         if (left < right) {
@@ -191,7 +191,7 @@ public:
 
             MergeSort<T>::mergeVec(vec, left, center, right);
         }
-    };
+    }
 };
 
 /*!
@@ -218,7 +218,7 @@ public:
                    MergeSort<T>::mergeVec(vec, lStart, mid, rEnd);
                }
            }
-    };
+    }
 
     int min(int x, int y) { return (x<y)? x :y; }
 };

@@ -41,9 +41,11 @@ HEADERS += \ \
     includes/HashFunction.h \
     includes/HashNode.h \
     includes/HashTable.h \
+    includes/Iterator.h \
     includes/LinearProbingTable.h \
     includes/RedBlackTree.h \
     includes/SeparateChainingTable.h \
+    includes/Set.h \
     includes/SortAlgorithms.h \
     includes/SplayTree.h \
     includes/TreeNode.h \

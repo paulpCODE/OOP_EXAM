@@ -1,6 +1,6 @@
 #pragma once
 #include <QObject>
-#include "includes/SortAlgorithms.h"
+#include "SortAlgorithms.h"
 #include "randomize.h"
 #include <vector>
 #include <QDebug>

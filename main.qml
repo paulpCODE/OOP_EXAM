@@ -1,6 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import Exam 1.0
+
 
 Window {
     id: window
@@ -231,6 +233,25 @@ Window {
                 id:choiceDataSort
                 visible: sorts.currentIndex == 0 ? true : false
                 keyUse: false
+                addElement.onClicked: {
+                    parent.selectSortType()
+                    if(valueT == "BOOK")
+                        UiController.addDataToSort(value.firstfield.text,
+                                                   value.secondfield.text,
+                                                   value.thirdfield.text,
+                                                   value.fourfield.text,
+                                                   value.fivefield.text)
+                    else
+                       UiController.addDataToSort(value.firstfield.text)
+                }
+                continueButton.onClicked: {
+                    if(generateChecked) {
+                        parent.selectSortType()
+                        UiController.fillSortVectorWithRandomData(amount.text)
+                    }
+                    UiController.flushDataToSort()
+                }
+
             }
 
             Operations {
@@ -238,6 +259,7 @@ Window {
                 keyT: choiceDataSort.keyT
                 valueT: choiceDataSort.valueT
                 visible: sorts.currentIndex == 1 ? true : false
+                Component.onCompleted: start.connect(parent.startOperation)
                 combobox.model: [
                     "SELECTION SORT",
                     "INSERTION SORT",
@@ -249,17 +271,18 @@ Window {
                     keyfields.clearFields()
                     valfields.clearFields()
                     switch(combobox.currentIndex) {
-                    case 0: keyUse = false; valUse = false;
+                    case 0: keyUse = false; valUse = false; UiController.selectSort(SortChoice.SELECTION_SORT)
                         break;
-                    case 1: keyUse = false; valUse = false;
+                    case 1: keyUse = false; valUse = false; UiController.selectSort(SortChoice.INSERTION_SORT)
                         break;
-                    case 2: keyUse = false; valUse = false;
+                    case 2: keyUse = false; valUse = false; UiController.selectSort(SortChoice.QUICK_SORT)
                         break;
-                    case 3: keyUse = false; valUse = false;
+                    case 3: keyUse = false; valUse = false; UiController.selectSort(SortChoice.MERGE_RECURSIVE_SORT)
                         break;
-                    case 4: keyUse = false; valUse = false;
+                    case 4: keyUse = false; valUse = false; UiController.selectSort(SortChoice.MERGE_ITERATIVE_SORT)
                         break;
-                    default: break;
+                    default: console.log("WRONG ENUM IN SORT SELECT")
+                        break;
                     }
                 }
             }
@@ -269,9 +292,17 @@ Window {
                 sorts.currentIndex += 1;
             }
             function startOperation() {
-                switch(operationsSort.combobox.currentIndex) {
-                    //CALL OPERATIONS
-                }
+                UiController.startSort()
+            }
+            function selectSortType() {
+                if(choiceDataSort.valueT == "INT")
+                    UiController.selectSortType(DataTypes.INT)
+                else if (choiceDataSort.valueT == "STRING")
+                    UiController.selectSortType(DataTypes.STRING)
+                else if (choiceDataSort.valueT == "BOOK")
+                    UiController.selectSortType(DataTypes.BOOK)
+                else
+                    console.log("WRONG DATA TYPE")
             }
         }
     }

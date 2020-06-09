@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
+import Exam 1.0
 
 Item {
     id:mainI
@@ -7,6 +8,13 @@ Item {
     property var keyT: keyFields.type
     property var valueT: valueFields.type
     property bool keyUse: true
+
+    property alias addElement: addelB
+    property alias continueButton: continueB
+    property alias key: keyFields
+    property alias value: valueFields
+    property alias amount: amountField
+    property alias generateChecked: generate.checked
 
     signal i()
     Rectangle {
@@ -122,7 +130,7 @@ Item {
             width: 120
             text: "Add element"
             onClicked: {
-                //ADD EL TO VECTOR
+                //ADD
                 keyType.enabled = false
                 valueType.enabled = false
                 keyFields.clearFields()
@@ -139,17 +147,6 @@ Item {
             anchors.margins: 7
             text: "Continue"
             visible: generate.visible ? false : true
-            onClicked: {
-                if(generate.checked) {
-                    //CREATE NUMBER OF ELEMENTS AND PUSH TO VECTOR
-                    //CREATE STRUCTURE
-                    i()
-                }
-                else {
-                    //CREATE STRUCTURE
-                    i()
-                }
-            }
         }
 
 

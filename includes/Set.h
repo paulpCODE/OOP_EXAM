@@ -11,9 +11,9 @@
 #include "AVLTree.h"
 #include <cstddef>
 #include <vector>
-
-enum class HashTableType { SeparateChaining, LinearProbing };
-enum class BalancedTreeType { RedBlack, Splay, AVL };
+#include "enumerations.h"
+//enum class HashTableType { SeparateChaining, LinearProbing };
+//enum class BalancedTreeType { RedBlack, Splay, AVL };
 
 template <typename KeyType, typename DataType>
 class Set {
@@ -34,13 +34,13 @@ private:
 	HashTable<KeyType, DataType>* table;
 
 public:
-	HashTableSet(HashTableType type, std::size_t size) {
+    HashTableSet(HashTableTypeClass::HashTableType type, std::size_t size) {
 		switch (type) {
-		case HashTableType::SeparateChaining:
+        case HashTableTypeClass::HashTableType::SeparateChaining:
 			this->table = new SeparateChainingTable<KeyType, DataType>{ size };
 			break;
 
-		case HashTableType::LinearProbing:
+        case HashTableTypeClass::HashTableType::LinearProbing:
 			this->table = new LinearProbingTable<KeyType, DataType>{ (int)size };
 			break;
 
@@ -78,17 +78,17 @@ private:
 	BinarySearchTree<KeyType, DataType>* tree;
 
 public:
-	BalancedTreeSet(BalancedTreeType type) {
+    BalancedTreeSet(BalancedTreeTypeClass::BalancedTreeType type) {
 		switch (type) {
-		case BalancedTreeType::RedBlack:
+        case BalancedTreeTypeClass::BalancedTreeType::RedBlack:
 			this->tree = new RedBlackTree<KeyType, DataType>;
 			break;
 
-		case BalancedTreeType::Splay:
+        case BalancedTreeTypeClass::BalancedTreeType::Splay:
 			this->tree = new SplayTree<KeyType, DataType>;
 			break;
 
-		case BalancedTreeType::AVL:
+        case BalancedTreeTypeClass::BalancedTreeType::AVL:
 			this->tree = new AVLTree<KeyType, DataType>;
 			break;
 

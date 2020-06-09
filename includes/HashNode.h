@@ -6,7 +6,7 @@ public:
 	KeyType key;
 	DataType* data{ nullptr };
 
-	HashNode() {}
+	HashNode() : key{} {}
 	HashNode(KeyType key, DataType* data) : key{ key }, data{ data } {}
 
 };

@@ -1,8 +1,10 @@
 ﻿#pragma once
 
+#include "Iterator.h"
+#include "HashTable.h"
 #include <iostream>
 #include <string>
-#include "HashTable.h"
+#include <cstddef>
 
 using namespace std;
 
@@ -29,6 +31,34 @@ public:
 template <typename KeyType, typename DataType>
 class LinearProbingTable : public HashTable<KeyType, DataType> {
 
+	template <typename KeyType, typename DataType>
+	class ProbingTableInterator : public Iterator<LinearProbingHashNode<KeyType, DataType>, ProbingTableInterator<KeyType, DataType>> {
+	private:
+		LinearProbingTable<KeyType, DataType>& table;
+		std::size_t currentIndex;
+
+	public:
+		ProbingTableInterator(LinearProbingHashNode<KeyType, DataType>* current, LinearProbingTable<KeyType, DataType>& table, std::size_t currentIndex)
+			: Iterator<LinearProbingHashNode<KeyType, DataType>, ProbingTableInterator<KeyType, DataType>>(current), 
+			table(table), currentIndex(currentIndex) {}
+
+		ProbingTableInterator<KeyType, DataType>& operator++() override {
+			do {
+				currentIndex++;
+				this->current++;
+			} while ((currentIndex < table.capacity) && (this->current->state != BUSY));
+			return *this;
+		}
+
+		bool operator!=(const ProbingTableInterator<KeyType, DataType>& other) override {
+			if ((currentIndex >= table.capacity) && (other.currentIndex >= table.capacity)) {
+				return false;
+			}
+			return (currentIndex != other.currentIndex);
+		}
+
+	};
+
 	int size;
 	int q; // шаг пробирования
 
@@ -54,6 +84,21 @@ public:
 	bool IsEmpty() const; // проверка на пустоту
 
 	~LinearProbingTable(); // деструктор (освобождение памяти)
+
+	ProbingTableInterator<KeyType, DataType> begin() {	
+		for (std::size_t i = 0; i < this->capacity; i++) {
+			if (cells[i].state == BUSY) {
+				return ProbingTableInterator<KeyType, DataType>(&cells[i], *this, i);
+			}
+		}
+
+		return ProbingTableInterator<KeyType, DataType>(nullptr, *this, this->capacity);
+	}
+
+	ProbingTableInterator<KeyType, DataType> end() {
+		return ProbingTableInterator<KeyType, DataType> {nullptr, *this, this->capacity};
+	}
+
 };
 
 template <typename KeyType, typename DataType>

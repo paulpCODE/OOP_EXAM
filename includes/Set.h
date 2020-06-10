@@ -126,7 +126,10 @@ public:
 	BalancedTreeSet(BalancedTreeType type) {
 		switch (type) {
 		case BalancedTreeType::RedBlack:
-			this->tree = new RedBlackTree<KeyType, DataType>;
+			/* Temporary replace RedBlack with Splay,
+			* because the remove operation in the RedBlack does not work correctly.
+			*/
+			this->tree = new SplayTree<KeyType, DataType>;
 			break;
 
 		case BalancedTreeType::Splay:

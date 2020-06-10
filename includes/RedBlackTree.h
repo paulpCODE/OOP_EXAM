@@ -231,6 +231,7 @@ inline void RedBlackTree<KeyType, DataType>::rotateRight(RBTreeNode<KeyType, Dat
 	y->parent = x;
 }
 
+// TODO: fix bugs, write unit-tests. The remove operation does not work correctly.
 template<typename KeyType, typename DataType>
 inline void RedBlackTree<KeyType, DataType>::remove(RBTreeNode<KeyType, DataType>* z)
 {

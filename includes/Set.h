@@ -137,7 +137,7 @@ public:
 			break;
 
 		default:
-			this->tree = new RedBlackTree<KeyType, DataType>;
+			this->tree = new SplayTree<KeyType, DataType>;
 			break;
 		}
 	}

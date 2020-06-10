@@ -12,7 +12,7 @@
 #include <vector>
 
 enum class HashTableType { SeparateChaining, LinearProbing };
-enum class BalancedTreeType { RedBlack, Splay, AVL };
+enum class BalancedTreeType { RedBlack, Splay };
 
 template <typename KeyType, typename DataType>
 class Set {
@@ -131,10 +131,6 @@ public:
 
 		case BalancedTreeType::Splay:
 			this->tree = new SplayTree<KeyType, DataType>;
-			break;
-
-		case BalancedTreeType::AVL:
-			this->tree = new AVLTree<KeyType, DataType>;
 			break;
 
 		default:

@@ -42,7 +42,7 @@ public:
 		std::vector<std::pair<KeyType, DataType*>> commonPairs;
 		for (auto& pair : pairs) {
 			if (contains(pair.first)) {
-				pairs.emplace_back(std::pair<KeyType, DataType*>{pair.first, pair.second});
+				commonPairs.emplace_back(std::pair<KeyType, DataType*>{pair.first, pair.second});
 			}
 		}
 		clear();
